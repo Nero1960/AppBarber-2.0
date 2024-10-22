@@ -1,0 +1,75 @@
+/* Cambiar el fondo del calendario */
+.rs-calendar {
+    background-color: #1f1f1f;
+    /* Fondo del calendario */
+    border-radius: 8px;
+}
+
+/* Cambiar el color del texto de los días */
+.rs-calendar-table-cell {
+    color: #ffffff;
+    /* Color del texto de los días */
+}
+
+.rs-calendar-header-title .rs-calendar-header-title-date .rs-btn .rs-btn-subtle .rs-btn-sm {
+    background-color: #1f1f1f;
+    /* Color del botón del calendario */
+    color: #ffffff;
+    /* Color del texto del botón del calendario */
+
+}
+
+.rs-btn {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.rs-calendar-month-dropdown-row {
+    background-color: #1f1f1f !important;
+    color: white !important;
+}
+
+.rs-calendar-table-cell-is-today .rs-calendar-table-cell-day{
+    background-color: #d6a354 !important;
+    color: #ffffff !important;
+
+}
+.rs-calendar-table-cell-content{
+    border: none !important;
+}
+
+.rs-calendar-month-dropdown-cell-content:hover {
+    background-color: #d6a354 !important;
+    /* Fondo al pasar el ratón */
+    color: #ffffff !important;
+    /* Color del texto al pasar el ratón */
+
+}
+
+.rs-calendar-table-cell .rs-calendar-table-cell-selected .rs-calendar-table-cell-content .rs-calendar-table-cell-day{
+    border: none !important;
+}
+
+.rs-calendar-table-cell-day{
+    border: none !important;
+}
+
+/* Cambiar el color de fondo del día seleccionado */
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
+    background-color: #d6a354 !important;
+    /* Fondo del día seleccionado */
+    color: white !important;
+    /* Color del texto del día seleccionado */
+    border-color:  transparent !important;
+    /* Eliminar el borde si hay uno predeterminado */
+}
+
+/* Opcional: cambiar el color de los días en hover */
+.rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
+    background-color: #d6a354 !important;
+    transition-duration: 500ms !important;
+    /* Fondo al pasar el ratón */
+    color: #ffffff !important;
+    /* Color del texto al pasar el ratón */
+}
+

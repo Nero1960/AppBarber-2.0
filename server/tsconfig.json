@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "outDir": "./Dist",
+        "rootDir": "src/",
+        "lib": [
+            "ES6"
+        ],
+        "target": "ESNext",
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
+        "strict": false,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": [
+            "node",
+            "multer"
+        ],
+        "typeRoots": [
+            "./node_modules/@types",
+            "./src/types",
+        ], // Ajusta el path según corresponda
+        
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}
