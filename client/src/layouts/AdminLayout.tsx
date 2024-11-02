@@ -30,7 +30,7 @@ export default function AdminLayout() {
     if(user)return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <div className={`bg-brown-500 w-64 min-h-screen flex flex-col transition-all duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static absolute z-30`}>
+            <div className={`bg-brown-500 w-52 min-h-screen flex flex-col transition-all duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static absolute z-30`}>
                 <div className="flex items-center justify-between p-4">
                     <Logo />
                     <Button variant={'ghost'} size="icon" className="md:hidden hover:bg-transparent" onClick={() => setSidebarOpen(false)}>

@@ -13,6 +13,7 @@ import appointmentRoute from './routes/appointmentRoute';
 import testimonialRoute from './routes/testimonialRoute'
 import productRoute from './routes/productRoute';
 import cartRoute from './routes/cartRoute';
+import reportRoute from './routes/reportRoute';
 
 
 //Instancia de express
@@ -54,6 +55,8 @@ server.use('/api/testimonial', testimonialRoute);
 server.use('/api/appointment', appointmentRoute);
 server.use('/api/product', productRoute);
 server.use('/api/cart', cartRoute)
+server.use('/api/report', reportRoute);
+
 
 
 server.use('/uploads', express.static('src/uploads'));

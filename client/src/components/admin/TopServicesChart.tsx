@@ -25,7 +25,7 @@ export default function TopServicesChart() {
 
 
   if(data) return (
-    <Card className="w-full bg-brown-500 text-white-500 border-none lg:col-span-2 lg:row-span-3 lg:col-start-4">
+    <Card className="w-full bg-brown-500 text-white-500 border-none lg:col-span-2 lg:row-span-4 lg:col-start-4">
       <CardHeader className="flex flex-col items-start space-y-6 pb-2">
         <CardTitle className="text-[#D6A354]">Servicios Más Solicitados</CardTitle>
         <Select 

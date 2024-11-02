@@ -1,4 +1,4 @@
-import { Column, Model, Table, DataType, BelongsToMany, HasOne } from "sequelize-typescript";
+import { Column, Model, Table, DataType, BelongsToMany, HasOne, Default } from "sequelize-typescript";
 import Cart from "./Cart";
 import CartDetails from "./CartDetails";
 import Inventory from "./Inventory";
@@ -47,6 +47,7 @@ class Product extends Model {
     })
     declare image: string;
 
+    @Default(new Date())
     @Column({
         type: DataType.DATE,
         allowNull: false

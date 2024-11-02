@@ -104,46 +104,50 @@ class ServiceController {
     public static getTopServices = async (request: Request, response: Response) => {
         try {
             const { period } = request.query as any;
-
             const today = new Date();
             let startDate: Date;
-            let endDate: Date = today;
-
-            console.log(period);
-
+            let endDate: Date;
+    
             // Determinar el rango de fechas según el periodo especificado
             switch (period) {
                 case 'month':
                     startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Último día del mes actual
                     break;
                 case 'week':
                     startDate = new Date(today);
                     startDate.setDate(today.getDate() - today.getDay());
+                    endDate = new Date(startDate);
+                    endDate.setDate(startDate.getDate() + 6); // Último día de la semana
                     break;
                 case 'day':
-                    startDate = new Date(today.setHours(0, 0, 0, 0));
+                    startDate = new Date(today);
+                    startDate.setHours(0, 0, 0, 0); // Inicio del día
+                    endDate = new Date(today);
+                    endDate.setHours(23, 59, 59, 999); // Fin del día
                     break;
                 default:
                     return response.status(400).json({ error: 'Invalid period specified.' });
             }
-
+    
+            console.log('Fecha de inicio:', startDate);
+            console.log('Fecha de fin:', endDate);
+    
             // Consulta a la base de datos para obtener los servicios más solicitados
             const topServices = await AppointmentService.findAll({
                 include: [
                     {
                         model: Appointment,
                         where: {
-                            createdAt: { [Op.between]: [startDate, endDate] }
+                            date: { [Op.between]: [startDate, endDate] }
                         },
                         attributes: []
                     },
-
                     {
                         model: Service,
                         attributes: []
                     }
                 ],
-
                 attributes: [
                     'AppointmentService.serviceId',
                     [fn('COUNT', col('AppointmentService.serviceId')), 'count'],
@@ -153,18 +157,15 @@ class ServiceController {
                 group: ['AppointmentService.serviceId', 'Service.name'],
                 order: [[fn('COUNT', col('AppointmentService.serviceId')), 'DESC']]    
             });
-
-            // Enviar la respuesta
+    
             response.status(200).json(topServices);
-
         } catch (error) {
             console.log(error);
             const err = new Error('Oops! Something went wrong.');
             return response.status(500).json({ error: err.message });
         }
-    }
-
-
+    };
+    
 }
 
 export default ServiceController;

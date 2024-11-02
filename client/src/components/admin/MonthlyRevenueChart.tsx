@@ -35,7 +35,7 @@ export default function MonthlyRevenueChart() {
   }, [data]);
 
   return (
-    <Card className="w-full bg-brown-500 text-white-500 border-none lg:col-span-3 lg:row-span-4">
+    <Card className="w-full bg-brown-500 text-white-500 border-none lg:col-span-3 lg:row-span-6">
       <CardHeader>
         <CardTitle className="text-Primary-500">Ingresos Mensuales por Citas</CardTitle>
       </CardHeader>

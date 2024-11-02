@@ -38,7 +38,8 @@ class AppointmentCancellation extends Model {
     })
 
     declare cancellation_date: Date;
-
+    
+    @Default(new Date())
     @Column({
         type: DataType.DATE,
         allowNull: false

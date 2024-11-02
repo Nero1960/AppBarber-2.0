@@ -1,4 +1,4 @@
-import { string, z } from 'zod'
+import { z } from 'zod'
 
 //Auth Schemas
 //Model Auth
@@ -271,3 +271,62 @@ export const topServiceSchema = z.object({
 })
 export const topServiceSchemaArray = z.array(topServiceSchema);
 export type TopServices = z.infer<typeof topServiceSchemaArray>;
+
+
+//Reportes en la sección de administrador
+//últimos usuarios registrados
+export const recentUsersSchema = userSchema.pick({
+    userId: true,
+    name: true,
+    lastname: true,
+    email: true,
+    image: true
+})
+export const recentUsersSchemaArray = z.array(recentUsersSchema);
+
+export type RecentUsers = z.infer<typeof recentUsersSchemaArray>;
+
+
+//Horas mas solicitadas para los servicios
+export const peakHoursSchema = z.object({
+    hour: z.number(),
+    appointment_count: z.number()
+})
+export const peakHoursSchemaArray = z.array(peakHoursSchema);
+
+export type PeakHours = z.infer<typeof peakHoursSchemaArray>;
+
+//Barberos mas solicitados
+export const topBarbersSchema = barberSchema.pick({
+    barberId: true,
+    name: true,
+    lastname: true,
+    image: true
+}).extend({
+    dailyClients: z.number().or(z.null()),
+    weeklyClients: z.number().or(z.null()),
+    monthlyClients: z.number().or(z.null()),
+    dailyRevenue: z.number().or(z.null()),
+    weeklyRevenue: z.number().or(z.null()),
+    monthRevenue: z.number().or(z.null()),
+})
+export const topBarbersSchemaArray = z.array(topBarbersSchema);
+
+export type TopBarbers = z.infer<typeof topBarbersSchemaArray>;
+
+//Obtener a los clientes mas frecuentes
+export const topCustomersSchema = z.object({
+    userId: z.number(),
+    totalAppointments: z.number(),
+    lastAppointment: z.string(),
+    user: userSchema.pick({
+        name: true,
+        lastname: true,
+        image: true,
+        email: true,
+        phone: true
+    })
+})
+
+export const topCustomersSchemaArray = z.array(topCustomersSchema);
+export type TopCustomers = z.infer<typeof topCustomersSchemaArray>
