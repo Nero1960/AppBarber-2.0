@@ -5,6 +5,7 @@ import Appointment from '../models/Appointment';
 import { col, fn, literal } from 'sequelize';
 import Barber from '../models/Barber';
 import Service from '../models/Service';
+import AppointmentCancellation from '../models/AppointmentCancellation';
 
 class ReportController {
 
@@ -38,6 +39,9 @@ class ReportController {
                     [fn('HOUR', col('time')), 'hour'],
                     [fn('COUNT', col('appointmentId')), 'appointment_count']
                 ],
+                where: {
+                    status: 'completed'
+                },
                 group: ['time'],
                 order: [[literal('appointment_count'), 'DESC']],
             })
@@ -91,6 +95,9 @@ class ReportController {
                     {
                         model: Appointment,
                         attributes: [],
+                        where: {
+                            status: 'completed'
+                        },
                         include: [
                             {
                                 model: Service,
@@ -142,6 +149,128 @@ class ReportController {
         } catch (error) {
             console.log(error);
             const err = new Error('Oops! Something went wrong');
+            return response.status(500).json({ error: err.message });
+        }
+
+    }
+
+    public static getAllAppointments = async (request: Request, response: Response) =>  {
+        try {
+            
+            const appointments = await Appointment.findAll({
+                attributes: ['appointmentId','status', 'date', 'time'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'lastname', 'email', 'image']
+                    },
+
+                    {
+                        model: Barber,
+                        attributes: ['name', 'lastname', 'image']
+                    }
+                ],
+                order: [
+                    [literal(`CASE WHEN status = 'pending' THEN 0 ELSE 1 END`), 'ASC'],
+                ]
+            })
+
+            response.status(200).json(appointments);
+            
+        } catch (error) {
+            console.log(error)
+            const err = new Error('Oops! Something went wrong');
+            return response.status(500).json({ error: err.message });
+        }
+    }
+
+    public static getAppointmentById = async ( request: Request, response: Response) => {
+        try {
+
+            const appointmentId = +request.params.appointmentId;
+
+            const appointment = await Appointment.findByPk(appointmentId, {
+
+                attributes: ['appointmentId', 'date', 'time', 'status'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'lastname', 'image']
+                    },
+                    {
+                        model: Service,
+                        attributes: ['name', 'serviceId'],
+                        through: {
+                            attributes: ['current_price']
+                        }
+                    },
+                ]
+            });
+
+            response.status(200).json(appointment)
+        
+        } catch (error) {
+            console.log(error)
+            const err = new Error('Oops! Something went wrong');
+            return response.status(500).json({ error: err.message });
+        }
+    }
+
+    public static updateAppointmentStatus = async ( request: Request, response: Response) => {
+        try {
+            const appointmentId = +request.params.appointmentId;
+            const status = request.body.status;
+
+            const appointment = await Appointment.findByPk(appointmentId);
+            appointment.status = status;
+
+            await appointment.save();
+            
+            response.status(200).send('Has cambiado el estado de la cita');
+
+        } catch (error) {
+            console.log(error)
+            const err = new Error('Oops! Something went wrong');
+            return response.status(500).json({ error: err.message });
+        }
+
+    }
+
+    public static getStatusData = async (request: Request, response: Response) => {
+        try {
+
+            const statusData = await Appointment.findAll({
+                attributes: [
+                    ['status', 'name'],
+                    [fn('COUNT', col('status')), 'value']
+                ],
+                group: ['status']
+            })
+
+            response.status(200).json(statusData);
+            
+        } catch (error) {
+            const err = new Error("Oops! some error occurred");
+            return response.status(500).json({ error: err.message });
+        }
+
+    }
+
+    public static getCancellationReasonData = async (request: Request, response: Response) => {
+        try {
+
+            const cancellationReasonData = await AppointmentCancellation.findAll({
+                attributes: [
+                    ['cancellation_reason', 'reason'],
+                    [fn('COUNT', col('cancellation_reason')), 'count']
+                ],
+                group: ['cancellation_reason']
+            })
+
+            response.status(200).json(cancellationReasonData);
+            
+        } catch (error) {
+            const err = new Error('!Oops! Something went wrong');
             return response.status(500).json({ error: err.message });
         }
 

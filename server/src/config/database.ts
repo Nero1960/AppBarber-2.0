@@ -8,7 +8,7 @@ const db = new Sequelize(process.env.DATABASE_NAME , process.env.DATABASE_USER, 
     host: process.env.DATABASE_HOST,
     dialect: 'mysql',
     models: [path.join(__dirname, '..', 'models', '*.ts')],
-    timezone: '-6:00'
+    timezone: '-06:00'
 })
 
 db.sync();

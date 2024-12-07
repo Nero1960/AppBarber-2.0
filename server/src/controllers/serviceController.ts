@@ -20,7 +20,7 @@ class ServiceController {
 
         try {
 
-            const serviceId = request.params.serviceId;
+            const serviceId = +request.params.serviceId;
 
             const service = await Service.findByPk(serviceId);
 
@@ -42,9 +42,10 @@ class ServiceController {
         try {
             const service = new Service(request.body);
             await service.save();
-            response.status(201).json('Servicio agregado correctamente');
+            response.status(201).json(service);
 
         } catch (error) {
+            console.log(error)
             const err = new Error('Oops! Something wrong happened');
             return response.status(500).json({ error: err.message })
 
@@ -55,9 +56,11 @@ class ServiceController {
     public static updateService = async (request: Request, response: Response) => {
 
         try {
-            const serviceId = request.params.serviceId;
+            const serviceId = +request.params.serviceId;
 
-            const service = await Service.findByPk(serviceId);
+            const service = await Service.findByPk(serviceId, {
+                attributes: {exclude: ['createdAt']}
+            });
 
             if (!service) {
                 const error = new Error('Servicio no encontrado');
@@ -70,7 +73,7 @@ class ServiceController {
 
             await service.save();
 
-            response.status(200).json('Servicio actualizado correctamente');
+            response.status(200).json(service);
 
 
         } catch (error) {
@@ -82,7 +85,7 @@ class ServiceController {
     public static deleteService = async (request: Request, response: Response) => {
 
         try {
-            const serviceId = request.params.serviceId;
+            const serviceId = +request.params.serviceId;
 
             const service = await Service.findByPk(serviceId);
 
@@ -93,7 +96,7 @@ class ServiceController {
 
             await service.destroy();
 
-            response.status(200).json('Servicio eliminado correctamente');
+            response.status(200).send('Servicio eliminado correctamente');
 
         } catch (error) {
             const err = new Error('Oops! Something wrong happened');
@@ -139,7 +142,8 @@ class ServiceController {
                     {
                         model: Appointment,
                         where: {
-                            date: { [Op.between]: [startDate, endDate] }
+                            date: { [Op.between]: [startDate, endDate] },
+                            status: 'completed'
                         },
                         attributes: []
                     },

@@ -1,4 +1,4 @@
-import {  Column, Model, Table, DataType , BelongsToMany} from "sequelize-typescript";
+import {  Column, Model, Table, DataType , BelongsToMany, Default} from "sequelize-typescript";
 import AppointmentService from "./AppointmentService";
 import Appointment from "./Appointment";
 
@@ -30,8 +30,9 @@ class Service extends Model {
         allowNull: false
     })
 
-    declare price : number
+    declare price : number;
 
+    @Default(new Date())
     @Column({
         type: DataType.DATE,
         allowNull: false

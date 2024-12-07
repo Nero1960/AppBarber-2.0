@@ -71,6 +71,15 @@ route.post(
     AppointmentController.cancellationReason
 )
 
+route.delete(
+    '/delete-appointment/:appointmentId',
+    param('appointmentId')
+        .isNumeric().withMessage('ID de cita no válido'),
+    handleInputErrors,
+    isAdmin,
+    AppointmentController.deleteAppointment
+)
+
 route.get(
     '/monthly-revenue',
     isAdmin,

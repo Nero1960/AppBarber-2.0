@@ -30,6 +30,10 @@ import CartAppView from './views/App/CartAppView';
 //Administrador
 import AdminLayout from './layouts/AdminLayout';
 import DashboardAdmin from './views/Admin/DashboardAdmin';
+import AppointmentAdmin from './views/Admin/AppointmentAdmin';
+import ServicesAdmin from './views/Admin/ServicesAdmin';
+import TestimonialAdmin from './views/Admin/TestimonialAdmin';
+import BarbersAdmin from './views/Admin/BarbersAdmin';
 
 const router = () => {
     return (
@@ -60,7 +64,10 @@ const router = () => {
 
                 <Route path='/admin' element={<AdminLayout/>}>
                     <Route path='/admin' element={<DashboardAdmin/>}/>
-
+                    <Route path='/admin/appointments' element={<AppointmentAdmin/>}/>
+                    <Route path='/admin/services' element={<ServicesAdmin/>}/>
+                    <Route path='/admin/testimonials' element={<TestimonialAdmin/>}/>
+                    <Route path='/admin/barbers' element={<BarbersAdmin/>}/>
                 </Route>
 
                 <Route path='*' element={<NotFoundView/>} />

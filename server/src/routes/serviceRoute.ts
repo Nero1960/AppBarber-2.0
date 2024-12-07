@@ -20,6 +20,7 @@ route.get(
     param('serviceId')
         .isNumeric().withMessage('ID no valido'),
     handleInputErrors,
+    isAdmin,
     ServiceController.getServiceById
 );
 

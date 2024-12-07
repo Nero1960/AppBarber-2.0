@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
     Calendar,
@@ -8,16 +7,18 @@ import {
     Home,
     Menu,
     Package,
-    Search,
     Settings,
     ShoppingCart,
     Users,
+    LayoutDashboard,
+    List,
     User
 } from 'lucide-react'
 import { Link, Navigate, Outlet, useLocation} from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { useAuthStore } from '@/store/authStore'
 import ProfileMenu from '@/components/app/ProfileMenu'
+import { Toaster } from 'sonner'
 
 export default function AdminLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -55,6 +56,16 @@ export default function AdminLayout() {
                             <ShoppingCart className="h-5 w-5" />
                             <span>Ventas</span>
                         </Link>
+
+                        <Link to="/admin/testimonials"className={`${location.pathname === '/admin/testimonials' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
+                            <List className="h-5 w-5" />
+                            <span>Testimoniales</span>
+                        </Link>
+
+                        <Link to="/admin/services"className={`${location.pathname === '/admin/services' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
+                            <LayoutDashboard className="h-5 w-5" />
+                            <span>Servicios</span>
+                        </Link>
                         <Link to="/admin/barbers"className={`${location.pathname === '/admin/barbers' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
                             <User className="h-5 w-5" />
                             <span>Barberos</span>
@@ -81,9 +92,9 @@ export default function AdminLayout() {
                         <Button variant="ghost" size="icon" className="md:hidden mr-2 hover:bg-brown-500" onClick={() => setSidebarOpen(true)}>
                             <Menu className="h-6 w-6 text-white-500" />
                         </Button>
-                        <div className="relative">
-                            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white-500" />
-                            <Input type="search" placeholder="Buscar..." className="pl-8 pr-4 bg-black-500 placeholder:text-white-500 text-white-500 outline-none" />
+                        <div className="relative hidden lg:flex">
+                        
+                            
                         </div>
                     </div>
                     <div className="flex items-center space-x-2 cursor-pointer">
@@ -96,6 +107,15 @@ export default function AdminLayout() {
                     <Outlet/>
                 </main>
             </div>
+
+            <Toaster
+                richColors
+                position='top-left'
+                closeButton={true}
+                duration={8000}
+            />
         </div>
+
+        
     )
 }

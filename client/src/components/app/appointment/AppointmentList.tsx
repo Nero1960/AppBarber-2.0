@@ -13,13 +13,13 @@ type GroupedAppointments = {
 
 const initialStatusGroups: GroupedAppointments = {
     pending: [],
-    canceled: [],
+    cancelled: [],
     completed: []
 }
 
 const statusStyle: { [key: string]: string } = {
     pending: '#D6A354',
-    canceled: '#ef4444',
+    cancelled: '#ef4444',
     completed: ' #22c55e'
 }
 

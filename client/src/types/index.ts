@@ -101,8 +101,7 @@ export type Barber = z.infer<typeof barberSchema>;
 export type BarberId = Pick<Barber, 'barberId'>
 
 //Appointments schemas
-
-export const appointmentStatusSchema = z.enum(["pending", "canceled", "completed"]);
+export const appointmentStatusSchema = z.enum(["pending", "cancelled", "completed"]);
 export type AppointmentStatus = z.infer<typeof appointmentStatusSchema>
 
 //Model Appointment
@@ -185,7 +184,7 @@ export type AppointmentCancellationForm = Pick<AppointmentCancellation, 'cancell
 
 //Testimonial Model
 
-export const testimonialSchemaStatus = z.enum(['Pendiente', 'Rechazado', 'Aprobado'])
+export const testimonialSchemaStatus = z.enum(['pending', 'approved', 'rejected'])
 
 export const testimonialSchema = z.object({
     testimonialId: z.number(),
@@ -330,3 +329,67 @@ export const topCustomersSchema = z.object({
 
 export const topCustomersSchemaArray = z.array(topCustomersSchema);
 export type TopCustomers = z.infer<typeof topCustomersSchemaArray>
+
+
+//Schema para todas las citas en el panel de administrador
+export const allAppointmentsSchema =  appointmentSchema.pick({
+    appointmentId: true,
+    status: true,
+    time: true,
+    date: true
+}).extend({
+    user: userSchema.pick({
+        name: true,
+        lastname:true,
+        email: true,
+        image: true
+    }),
+    barbero: barberSchema.pick({
+        name: true,
+        lastname: true,
+        image: true
+    })
+});
+
+export const allAppointmentsSchemaArray = z.array(allAppointmentsSchema);
+export type AllAppointments = z.infer< typeof allAppointmentsSchemaArray>;
+
+//Schema para  el modal de la cita.
+export const appointmentDetailsAdminSchema = appointmentSchema.pick({
+    appointmentId: true,
+    status: true,
+    time: true,
+    date: true
+}).extend({
+    user: userSchema.pick({
+        name: true,
+        lastname:true,
+        image:true
+    }),
+    services: z.array(serviceSchema.pick({
+        name: true,
+        serviceId: true,
+    }).extend({
+        AppointmentService: appointmentServiceSchema.pick({
+            current_price: true
+        })
+    }))
+});
+export const appointmentDetailsAdminSchemaArray = z.array(appointmentDetailsAdminSchema);
+
+export type AppointmentDetailsAdmin = z.infer<typeof appointmentDetailsAdminSchemaArray>;
+
+/**summary about cancellation appointment */
+export const statusDataSchema = z.object({
+    name: z.string(),
+    value: z.number()
+})
+export const statusDataSchemaArray = z.array(statusDataSchema);
+export type StatusData = z.infer<typeof statusDataSchemaArray>;
+
+export const cancellationReasonSchema = z.object({
+    reason: appointmentCancellationReason,
+    count: z.number()
+})
+export const cancellationReasonSchemaArray = z.array(cancellationReasonSchema);
+export type CancellationReason = z.infer<typeof cancellationReasonSchemaArray>;

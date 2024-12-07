@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query'
 export const useBarbers = () => {
 
 
-    //Obtener todos los servicios
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: ['barbers'],
         queryFn: getAllBarbers,

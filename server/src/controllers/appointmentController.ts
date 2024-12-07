@@ -249,7 +249,7 @@ class AppointmentController {
                 return;
             }
 
-            appointment.status = 'canceled';
+            appointment.status = 'cancelled';
             appointment.save();
             response.status(200).send('Has cancelado tu cita');
 
@@ -271,6 +271,35 @@ class AppointmentController {
             return response.status(500).json({ error: err.message });
         }
 
+    }
+
+    public static deleteAppointment = async (request: Request, response: Response) => {
+        try {
+            const appointmentId = +request.params.appointmentId;
+
+            const appointment = await Appointment.findByPk(appointmentId);
+
+            if(!appointment){
+                const error = new Error('Cita no encontrada');
+                return response.status(400).json({
+                    msg: error.message
+                })
+            }
+
+            await AppointmentService.destroy({
+                where: {
+                    appointmentId
+                }
+            })
+
+            await appointment.destroy();
+
+            response.status(200).send('La cita ha sido eliminada');
+            
+        } catch (error) {
+            const err = new Error('Oops! Something wrong happened');
+            return response.status(500).json({ error: err.message });
+        }
     }
 
     //Ingresos mensuales por todas la citas atendidas
@@ -300,6 +329,7 @@ class AppointmentController {
                         attributes: [],
                         where: {
                             date: { [Op.between]: [startDate, endDate] },
+                            status: 'completed'
                         }
                     }
                 ],

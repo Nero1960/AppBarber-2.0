@@ -4,6 +4,7 @@ import {
     AppointmentCancellationForm,
      appointmentCompleteSchema, 
      appointmentCompleteSchemaArray, 
+     Appointments, 
      AppointmentService, 
      AppointmentsForm, 
      monthlyRevenueAppointmentSchemaArray
@@ -81,6 +82,20 @@ export const cancelAppointment = async (appointmentId : AppointmentService['appo
     try {
         const url = `/appointment/cancel-appointment/${appointmentId}`;
         const { data } = await api.patch<string>(url);
+        return data;
+        
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+
+}
+
+export const deleteAppointment = async (appointmentId: Appointments['appointmentId']) => {
+    try {
+        const url = `/appointment/delete-appointment/${appointmentId}`;
+        const { data } = await api.delete<string>(url);
         return data;
         
     } catch (error) {

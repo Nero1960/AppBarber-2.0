@@ -9,8 +9,7 @@ import {
     Button,
     Avatar
 } from '@chakra-ui/react'
-import { getAppointmentById } from "@/api/AppointmentApi";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigate, useLocation, useNavigate } from "react-router-dom"
 import { formatToCordobas } from '@/utils/formatToCordobas';
 import { BsClockFill } from 'react-icons/bs';
@@ -18,26 +17,55 @@ import { FaCalendar } from 'react-icons/fa6';
 import { formatTime } from '@/utils/formatTime';
 import { es } from 'date-fns/locale';
 import { formatInTimeZone } from 'date-fns-tz';
+import { getAppointmentAdminById, updateAppointmentStatus } from '@/api/ReportApi';
+import { Appointments } from '@/types/index';
+import { toast } from 'sonner';
 
-export const AppointmentModalDetails = () => {
+
+export const AppointmentModalDetailsAdmin = () => {
 
     const location = useLocation();
     const queryParam = new URLSearchParams(location.search);
     const appointmentId = +queryParam.get('ViewAppointment')!;
 
-    console.log(appointmentId)
 
     const navigate = useNavigate();
 
+    //Obtener detalles por la cita
     const { data, isError } = useQuery({
-        queryKey: ['viewAppointment', appointmentId],
-        queryFn: () => getAppointmentById(appointmentId),
+        queryKey: ['viewAppointmentAdmin', appointmentId],
+        queryFn: () => getAppointmentAdminById(appointmentId),
         enabled: appointmentId > 0,
         retry: false
+    });
+
+    const queryClient = useQueryClient();
+
+  
+    const { mutate} = useMutation({
+        mutationFn: updateAppointmentStatus,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            toast.success(data);
+            queryClient.invalidateQueries({queryKey: ['viewAppointmentAdmin', appointmentId]})
+            queryClient.invalidateQueries({queryKey: ['appointments']})
+        }
     })
+
+
+    const handleStatusChange = (state: Appointments['status']) => {
+       const data = {
+        appointmentId,
+        status: state
+       };
+       mutate(data)
+    }
 
     const timeZone = 'America/Managua';
     const showModal = appointmentId ? true : false;
+
 
     if (isError) return <Navigate to={'/404'} />
 
@@ -46,15 +74,15 @@ export const AppointmentModalDetails = () => {
             <Modal size={'lg'} onClose={() => navigate(location.pathname, { replace: true })} isOpen={showModal} isCentered>
                 <ModalOverlay />
                 <ModalContent bg="#1f1f1f" color={'#f7f7f7'} padding={5}>
-                    <ModalHeader className='font-heading text-white-500'>Información de tu Cita</ModalHeader>
+                    <ModalHeader className='font-heading text-white-500'>Detalles de esta cita</ModalHeader>
                     <ModalCloseButton border={'none'} />
                     <ModalBody>
 
                         <div className='mb-5 text-sm'>
-                            <p className='mb-3'>Barbero Seleccionado</p>
+                            <p className='mb-3'>Cliente</p>
                             <div className='flex justify-between items-center'>
-                                <p className="text-brown-200">{data.barbero.name} {" "} {data.barbero.lastname}</p>
-                                <Avatar size='md' src={`${import.meta.env.VITE_IMAGE_URL}/${data.barbero.image}`}/>
+                                <p className="text-brown-200">{data.user.name} {" "} {data.user.lastname}</p>
+                                <Avatar size='md' src={`${import.meta.env.VITE_IMAGE_URL}/${data.user.image}`} />
 
                             </div>
 
@@ -62,7 +90,7 @@ export const AppointmentModalDetails = () => {
 
                         <div className='mb-5 text-sm'>
                             <p className='mb-3'>Fecha y Hora</p>
-                            <div className="time flex justify-between items-center">
+                            <div className="time flex justify-between items-center space-y-4">
                                 <div className="flex items-center gap-x-2 text-brown-200">
                                     <BsClockFill className="text-Primary-500" />
                                     {formatTime(data.time)}
@@ -70,8 +98,25 @@ export const AppointmentModalDetails = () => {
 
                                 <div className="flex items-center gap-x-2 text-brown-200">
                                     <FaCalendar className="text-Primary-500" />
-                                    {formatInTimeZone(new Date(data.date + 'T00:00:00'), timeZone,"d 'de' MMMM 'de' yyyy", {locale: es})}
+                                    {formatInTimeZone(new Date(data.date + 'T00:00:00'), timeZone, "d 'de' MMMM 'de' yyyy", { locale: es })}
                                 </div>
+                            </div>
+
+                            <div className='flex items-center justify-between mt-4'>
+                                <label htmlFor='status'>Estado de la cita</label>
+                                <select
+                                    className={`bg-black-500 px-4 py-2 rounded`}
+                                    name="status"
+                                    id="status"
+                                    value={data.status}
+                                    onChange={e => handleStatusChange(e.target.value as Appointments['status'])}
+                                >
+                                    <option value="pending">Pendiente</option>
+                                    <option value="cancelled">Cancelada</option>
+                                    <option value="completed">Completada</option>
+                                </select>
+
+
                             </div>
 
                         </div>

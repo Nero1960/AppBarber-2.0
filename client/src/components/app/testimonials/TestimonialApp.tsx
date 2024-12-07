@@ -3,28 +3,31 @@ import {
     CarouselContent, CarouselItem, Carousel, CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useTestimonials } from "@/hooks/useTestimonials";
-import { useTestimonialStore } from "@/store/testimonialStore"
 import { formatDate } from "@/utils/formatDate";
 import { Avatar } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RiStarSFill } from "react-icons/ri";
 import { IoMdAddCircle } from "react-icons/io";
 import TestimonialAddModal from "@/components/app/testimonials/TestimonialAddModal";
+import { useQuery } from "@tanstack/react-query";
+import { getTestimonials } from "@/api/TestimonialApi";
 
 const TestimonialApp = () => {
 
-    const testimonials = useTestimonialStore(state => state.testimonials);
-    const setTestimonials = useTestimonialStore(state => state.setTestimonials);
+    
     const [showModal, setShowModal] = useState(false)
 
-    const { data } = useTestimonials();
+    const { data : testimonials } = useQuery({
+        queryKey: ['testimonials'],
+        queryFn: getTestimonials,
+        retry: false,
+        refetchOnWindowFocus: false,
+        enabled: true,
+    });
 
-    useEffect(() => {
-        if (data) {
-            setTestimonials(data);
-        }
-    }, [data])
+    console.log(testimonials)
+
+    
 
     if (testimonials) return (
         <AnimationApp>

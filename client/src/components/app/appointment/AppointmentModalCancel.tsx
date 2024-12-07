@@ -48,7 +48,7 @@ const AppointmentModalCancel = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<AppointmentCancellationForm>();
 
     //Definir los motivos de cancelación
-    const cancellationReasons = ['Personal', 'Salud', 'Imprevisto', 'Otro'];
+    const cancellationReasons = ['Personal', 'Salud', 'Inconveniente', 'Otro'];
 
     //Mutación para agregar los motivos de cancelación
     const { mutate: mutateCancellation } = useMutation({

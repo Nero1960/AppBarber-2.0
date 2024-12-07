@@ -39,7 +39,7 @@ class Testimonials extends Model{
 
     declare title : string;
 
-    @Default('Pendiente')
+    @Default('pending')
     @Column({
         type: DataType.STRING,
         allowNull: false
