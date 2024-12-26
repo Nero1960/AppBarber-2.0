@@ -26,7 +26,7 @@ class Service extends Model {
     declare name : string;
 
     @Column({
-        type: DataType.DOUBLE(5,6),
+        type: DataType.DOUBLE(5,2),
         allowNull: false
     })
 

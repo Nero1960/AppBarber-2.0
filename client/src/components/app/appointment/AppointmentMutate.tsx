@@ -6,7 +6,6 @@ import { formatToCordobas } from "@/utils/formatToCordobas"
 import { FormLabel, Grid, Input } from "@chakra-ui/react"
 import { UseFormRegister } from "react-hook-form"
 import FormGroup from "rsuite/esm/FormGroup"
-import barberIcon from '@/public/logo1.png';
 
 
 
@@ -22,6 +21,7 @@ type AppointmentMutateProps = {
 const AppointmentMutate = ({ register, barberSelectedComplete, servicesSelectedComplete, selectedDate, selectedTime }: AppointmentMutateProps) => {
 
     const user = useAuthStore(state => state.user);
+    console.log(selectedDate)
 
     if (user) return (
         <>
@@ -127,7 +127,7 @@ const AppointmentMutate = ({ register, barberSelectedComplete, servicesSelectedC
                             className={`py-8 px-5 rounded-lg flex justify-center items-center  hover:translate-x-1 hover:translate-y-1  duration-300 bg-brown-500`}
                         >
                             <div className="">
-                                <img src={barberIcon} alt="icono barbero" width={60} height={60} />
+                                <img src={'/logo1.png'} alt="icono barbero" width={60} height={60} />
                             </div>
 
                             <div className="flex flex-col space-y-1">

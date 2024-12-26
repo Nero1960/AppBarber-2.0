@@ -23,8 +23,7 @@ export const getTestimonials = async () => {
         const { data } = await api.get(url);
 
         const response = testimonialSchemaUserArray.safeParse(data);
-        console.log(data)
-        console.log(response)
+        
 
         if (response.success) {
             return response.data;

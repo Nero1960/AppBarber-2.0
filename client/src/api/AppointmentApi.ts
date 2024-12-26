@@ -13,6 +13,7 @@ import {
 export const createAppointment = async (formData : AppointmentsForm) => {
     try {
 
+        console.log(formData)
         const url = `/appointment/make-appointment`;
         const { data } = await api.post<string>(url, formData);
         return data;

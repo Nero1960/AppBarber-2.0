@@ -1,5 +1,4 @@
 import { useService } from '@/hooks/useService';
-import barberIcon from '@/public/logo1.png'
 import { useServicesStore } from "@/store/serviceStore";
 import { formatToCordobas } from "@/utils/formatToCordobas";
 import { useEffect } from 'react';
@@ -38,7 +37,7 @@ const ServiceApp = () => {
 
                         >
                             <div className="">
-                                <img src={barberIcon} alt="icono barbero" width={60} height={60} />
+                                <img src={'/logo1.png'} alt="icono barbero" width={60} height={60} />
                             </div>
 
                             <div className="flex flex-col space-y-1">

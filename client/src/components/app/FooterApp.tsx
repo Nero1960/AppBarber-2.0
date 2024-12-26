@@ -1,4 +1,3 @@
-import logo from '@/public/logo2.png'
 import { useServicesStore } from '@/store/serviceStore'
 import { AiFillTikTok, AiFillTwitterCircle } from 'react-icons/ai'
 import { FaLocationDot, FaPhoneVolume } from "react-icons/fa6";
@@ -13,7 +12,7 @@ const FooterApp = () => {
     <footer className="bg-brown-500 py-10">
       <div className="grid lg:grid-cols-3 gap-x-10 max-w-4xl mx-auto px-8 lg:px-0 w-full">
         <div className="flex flex-col gap-y-2 justify-center items-center lg:justify-normal lg:items-start">
-          <img src={logo} alt="logo" width={140} height={140} />
+          <img src={'/logo2.png'} alt="logo" width={140} height={140} />
           <p className='text-brown-200 text-xs'>Gracias por visitarnos. Síguenos en redes sociales para más novedades.</p>
           <div className="icons flex items-center text-2xl mt-2">
             <BiLogoFacebookCircle className='text-white-500 hover:text-Primary-500 duration-300' />

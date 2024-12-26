@@ -1,13 +1,5 @@
 import { Grid, GridItem, Image } from "@chakra-ui/react"
-import gallery1 from '@/public/galeria1.jpg'
-import gallery2 from '@/public/galeria2.jpg'
-import gallery3 from '@/public/galeria3.jpg'
-import gallery4 from '@/public/citas.jpg'
-import video from '@/public/videos/video1.mp4'
 import AnimationApp from "./AnimationApp"
-
-
-
 
 const GalleryApp = () => {
     return (
@@ -25,17 +17,15 @@ const GalleryApp = () => {
                     marginTop={'2rem'}
                 >
 
-                    <GridItem rowSpan={2} colSpan={2}> <video src={video} autoPlay muted loop className="h-full object-cover"></video> </GridItem>
+                    <GridItem rowSpan={2} colSpan={3}> <video src={'/videos/video1.mp4'} autoPlay muted loop className="h-full object-cover"></video> </GridItem>
 
 
-                    <GridItem colSpan={2} colStart={3} colEnd={5}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={gallery3} /></GridItem>
+                    <GridItem colSpan={2} colStart={4} colEnd={6}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={'/imagen3.webp'} /></GridItem>
 
-                    <GridItem colSpan={2} colStart={5} colEnd={7}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={gallery2} /></GridItem>
+                    <GridItem colSpan={2} colStart={6} colEnd={10}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={'/imagen4.webp'} /></GridItem>
 
-                    <GridItem colSpan={2} colStart={7} colEnd={9}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={gallery1} /></GridItem>
-
-
-                    <GridItem colStart={3} colEnd={9}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={gallery4} /></GridItem>
+                
+                    <GridItem rowSpan={2} colStart={4} colEnd={10}><Image loading="lazy" objectFit={'cover'} height={'100%'} src={'/citas.webp'} /></GridItem>
                 </Grid>
             </div>
         </AnimationApp>

@@ -9,20 +9,14 @@ import moment from "moment";
 import AppointmentCancellation from "../models/AppointmentCancellation";
 import { col, fn, literal, Op } from "sequelize";
 
-
 class AppointmentController {
-
 
     public static makeAppointment = async (request: Request, response: Response) => {
 
         try {
 
             const { barberId, time, date, services }: Appointment = request.body;
-            console.log(request.body)
-
             const barber = await Barber.findByPk(barberId);
-
-
             if (!barber) {
                 const error = new Error('Barbero no encontrado');
                 return response.status(404).json({ error: error.message });
@@ -279,7 +273,7 @@ class AppointmentController {
 
             const appointment = await Appointment.findByPk(appointmentId);
 
-            if(!appointment){
+            if (!appointment) {
                 const error = new Error('Cita no encontrada');
                 return response.status(400).json({
                     msg: error.message
@@ -295,7 +289,7 @@ class AppointmentController {
             await appointment.destroy();
 
             response.status(200).send('La cita ha sido eliminada');
-            
+
         } catch (error) {
             const err = new Error('Oops! Something wrong happened');
             return response.status(500).json({ error: err.message });

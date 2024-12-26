@@ -1,4 +1,3 @@
-import imagenGrid from "@/public/galeria2.jpg"
 import { Box, Card, CardBody, CardHeader, Heading, Image, Stack, StackDivider, Text } from "@chakra-ui/react"
 
 const AboutAppView = () => {
@@ -13,7 +12,7 @@ const AboutAppView = () => {
                 <div></div>
 
                 <div className="image">
-                    <Image src={imagenGrid} alt="imagen grid" />
+                    <Image src={'/background.jpg'} alt="imagen grid" />
                 </div>
 
                 <Card bg={'#0f0f0f'}>

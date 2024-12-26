@@ -1,16 +1,9 @@
 import { Link } from "react-router-dom"
-import gridImageLeft from '@/public/imagen1.jpg'
-import gridImageRight from '@/public/imagen2.jpg'
 import { IoHomeSharp } from "react-icons/io5";
 import { IoFlagSharp } from "react-icons/io5";
 import AnimationApp from "./AnimationApp";
 
-
-
 const AboutApp = () => {
-
-
-
 
     return (
         <AnimationApp>
@@ -37,11 +30,11 @@ const AboutApp = () => {
                             <button className=" bg-Primary-500 text-white-500 px-6 py-2 text-sm text-left rounded-3xl flex items-center gap-x-2"><IoHomeSharp className="text-xl" />No esperes mas <br />  Siéntete como en casa</button>
                         </div>
                         <div className="image-left absolute top-20 w-1/2 h-1/2 object-cover space-y-4">
-                            <img src={gridImageLeft} alt="imagen nosotros" className="rounded-lg" />
+                            <img src={'/imagen1.webp'} alt="imagen nosotros" className="rounded-lg" />
                         </div>
 
                         <div className="image-right">
-                            <img src={gridImageRight} alt="imagen nosotros" className="rounded-lg" />
+                            <img src={'/imagen2.webp'} alt="imagen nosotros" className="rounded-lg" />
                         </div>
 
                         <div className="hidden lg:flex absolute top-[280px] left-60">

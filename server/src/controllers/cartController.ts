@@ -58,10 +58,11 @@ class CartController {
             const cartDetails = new CartDetails({
                 cartId: cart.cartId,
                 productId,
-                unit_price: Number(product.price),
+                unit_price: product.price,
+                
             })
 
-            cartDetails.subtotal = Number(product.price + cartDetails.quantity);
+            cartDetails.subtotal = product.price * cartDetails.quantity;
             inventory.quantity -= 1;
 
             await inventory.save();

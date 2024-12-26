@@ -25,11 +25,10 @@ const TestimonialApp = () => {
         enabled: true,
     });
 
-    console.log(testimonials)
 
     
 
-    if (testimonials) return (
+    if (testimonials && testimonials.length !== 0) return (
         <AnimationApp>
             <div className="py-20 relative">
                 <div className="max-w-4xl mx-auto px-8 lg:px-0 lg:py-5">

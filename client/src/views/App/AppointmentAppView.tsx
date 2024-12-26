@@ -2,7 +2,6 @@ import { useAuthStore } from "@/store/authStore";
 import { useBarbersStore } from "@/store/barberStore";
 import { useServicesStore } from "@/store/serviceStore";
 import { Grid, GridItem, Spinner } from "@chakra-ui/react";
-import logo from '@/public/logo1.png';
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GrFormPreviousLink } from "react-icons/gr";
@@ -160,7 +159,7 @@ const AppointmentAppView = () => {
                     </p>
 
 
-                    <img src={logo} alt="logo" width={140} height={140} className="flex justify-center items-center mx-auto" />
+                    <img src={'/logo1.png'} alt="logo" width={140} height={140} className="flex justify-center items-center mx-auto" />
                 </GridItem>
 
                 <GridItem>
