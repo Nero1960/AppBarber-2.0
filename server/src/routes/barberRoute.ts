@@ -37,5 +37,26 @@ route.post(
     BarberController.addBarber // Controlador que maneja la lógica de añadir un barbero
 );
 
+route.put(
+    '/update-barber/:barberId',
+    isAdmin,
+    upload.single('image'),
+    param('barberId').isNumeric().withMessage('ID no valido'),
+    body('name').notEmpty().withMessage('El nombre del barbero es requerido'),
+    body('lastname').notEmpty().withMessage('El apellido del barbero es requerido'),
+    body('phone').notEmpty().withMessage('El numero telefónico es requerido'),
+    body('email').isEmail().withMessage('El email es requerido'),
+    body('specialty').notEmpty().withMessage('La especialidad es requerida'),
+    handleInputErrors,
+    BarberController.updateBarber
+);
+
+route.delete(
+    '/delete-barber/:barberId',
+    isAdmin,
+    param('barberId').isNumeric().withMessage('ID no valido'),
+    handleInputErrors,
+    BarberController.deleteBarber
+);
 
 export default route;

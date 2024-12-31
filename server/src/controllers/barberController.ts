@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 import Barber from "../models/Barber";
+import path from "path";
+import fs from 'fs';
 
 declare global {
     namespace Express {
@@ -79,6 +81,68 @@ class BarberController {
             response.status(500).json({ error: errorMessage.message });
         }
 
+    }
+
+    public static updateBarber = async (request: Request, response: Response) => {
+      try {
+        const barberId = parseInt(request.params.barberId);
+        const { name, lastname, email, phone, specialty } = request.body;
+        const barber = await Barber.findByPk(barberId);
+
+        if (!barber) {
+          const errorMessage = new Error('Barber0 no encontrado');
+          return response.status(404).json({ error: errorMessage.message });
+        };
+
+        barber.name = name || barber.name;
+        barber.lastname = lastname || barber.lastname;
+        barber.email = email || barber.email;
+        barber.phone = phone || barber.phone;
+        barber.specialty = specialty || barber.specialty;
+        
+        const imageExist = barber.image;
+        
+        if(request.file){
+          barber.image = request.file.filename;
+          
+          if(imageExist && imageExist !== 'default.png'){
+            const previousImageUrl = path.join(__dirname, '..', 'uploads', imageExist);
+            fs.unlinkSync(previousImageUrl);
+          }
+        }
+
+        await barber.save();
+
+        response.status(200).json(barber);
+      } catch (error) {
+        console.log(error);
+        const errorMessage = new Error('Oops! Something went wrong');
+        response.status(500).json({ error: errorMessage.message });
+      }
+    }
+
+    public static deleteBarber = async (request: Request, response: Response) => {
+      try {
+        const barberId = parseInt(request.params.barberId);
+        const barber = await Barber.findByPk(barberId);
+        const image = barber.image;
+
+        if (!barber) {
+          const errorMessage = new Error('Barbero no encontrado');
+          return response.status(404).json({ error: errorMessage.message });
+        };
+
+        await barber.destroy();
+          
+        const previousImageUrl = path.join(__dirname, '..', 'uploads', image);
+        fs.unlinkSync(previousImageUrl);
+
+        response.status(200).send('Barbero eliminado correctamente');
+      } catch (error) {
+        console.log(error);
+        const errorMessage = new Error('Oops! Something went wrong');
+        response.status(500).json({ error: errorMessage.message });
+      }
     }
 }
 
