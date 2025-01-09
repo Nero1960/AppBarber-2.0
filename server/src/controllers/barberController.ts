@@ -2,6 +2,9 @@ import type { Request, Response } from "express";
 import Barber from "../models/Barber";
 import path from "path";
 import fs from 'fs';
+import Appointment from "../models/Appointment";
+import { col, fn, literal, Op } from "sequelize";
+import AppointmentService from "../models/AppointmentService";
 
 declare global {
     namespace Express {
@@ -138,6 +141,93 @@ class BarberController {
         fs.unlinkSync(previousImageUrl);
 
         response.status(200).send('Barbero eliminado correctamente');
+      } catch (error) {
+        console.log(error);
+        const errorMessage = new Error('Oops! Something went wrong');
+        response.status(500).json({ error: errorMessage.message });
+      }
+    }
+
+    public static citasBarberos = async (request: Request, response: Response) => {
+      try {
+        const { mes, year } = request.query;
+
+        if (!mes || !year) {
+          return response.status(400).json({ message: "Mes y año son requeridos." });
+        };
+
+        const startDate = new Date(Number(year), Number(mes) - 1, 1); // Primer día del mes
+        const endDate = new Date(Number(year), Number(mes), 0); // Último día del mes
+
+        const barberos = await Barber.findAll({
+          attributes: [
+            'barberId',
+            'name',
+            [
+              fn('COUNT', col('Appointment.appointmentId')), 'appointments'
+            ]
+          ],
+            include: [
+            {
+              model: Appointment,
+              attributes: [],
+              where: {
+                date: { [Op.between]: [startDate, endDate] }
+              },
+              required: false
+            }
+          ],
+          group: ['Barber.barberId'],
+          order: [[literal('appointments'), 'DESC']]
+        });
+
+        response.status(200).json(barberos);
+      } catch (error) {
+        console.log(error);
+        const errorMessage = new Error('Oops! Something went wrong');
+        response.status(500).json({ error: errorMessage.message });
+      }
+    }
+
+    public static ingresosBarberos = async (request: Request, response: Response) => {
+      try {
+        const { mes, year } = request.query;
+
+        if (!mes || !year) {
+          return response.status(400).json({ message: "Mes y año son requeridos." });
+        };
+
+        const startDate = new Date(Number(year), Number(mes) - 1, 1); // Primer día del mes
+        const endDate = new Date(Number(year), Number(mes), 0); // Último día del mes
+
+        const barberoIngresos = await AppointmentService.findAll({
+          attributes: [
+            [col('Appointment.barberId'), 'barberId'],
+            [col('Appointment.barbero.name'), 'name'],
+            [fn('SUM', col('current_price')), 'value'],
+          ],
+          include: [
+            {
+              model: Appointment,
+              attributes: [],
+              where: {
+                date: {
+                  [Op.between]: [startDate, endDate],
+                },
+              },
+              include: [
+                {
+                  model: Barber,
+                  attributes: [], 
+                },
+              ],
+            },
+          ],
+          group: ['Appointment.barberId'], 
+          order: [[literal('value'), 'DESC']], 
+        });
+
+        response.status(200).json(barberoIngresos);
       } catch (error) {
         console.log(error);
         const errorMessage = new Error('Oops! Something went wrong');
