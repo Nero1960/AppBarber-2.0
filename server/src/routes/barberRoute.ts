@@ -59,4 +59,8 @@ route.delete(
     BarberController.deleteBarber
 );
 
+route.get('/citas-barber', isAdmin, BarberController.citasBarberos);
+
+route.get('/ingresos-barber', isAdmin, BarberController.ingresosBarberos);
+
 export default route;
