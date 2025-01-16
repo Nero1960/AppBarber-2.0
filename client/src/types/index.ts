@@ -92,17 +92,32 @@ export const barberSchema = userSchema.pick({
     specialty: z.string(),
     barberId: z.number()
 })
+//Barber Appointment Data
+export const barberAppointmentData = z.object({
+    name: z.string(),
+    appointments: z.number()
+})
+export const barberPercentageSchema = z.object({
+    name: z.string(),
+    value: z.number()
+})
 //Model Barber Array
 export const barberSchemaArray = z.array(barberSchema);
+export const barberAppointmentDataArray = z.array(barberAppointmentData);
+export const barberPercentageSchemaArray = z.array(barberPercentageSchema);
+
 
 //Types Barbers
 export type Barbers = z.infer<typeof barberSchemaArray>;
 export type Barber = z.infer<typeof barberSchema>;
-export type BarberId = Pick<Barber, 'barberId'>
+export type BarberAppointmentData = z.infer<typeof barberAppointmentDataArray>;
+export type BarberPercentage = z.infer<typeof barberPercentageSchemaArray>;
+export type BarberId = Pick<Barber, 'barberId'>;
+export type BarberForm = Omit<Barber, 'barberId'>;
 
 //Appointments schemas
 export const appointmentStatusSchema = z.enum(["pending", "cancelled", "completed"]);
-export type AppointmentStatus = z.infer<typeof appointmentStatusSchema>
+export type AppointmentStatus = z.infer<typeof appointmentStatusSchema>;
 
 //Model Appointment
 export const appointmentSchema = z.object({

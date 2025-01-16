@@ -2,8 +2,9 @@ import ServicesTable from "@/components/admin/services/ServicesTable"
 
 const ServicesAdmin = () => {
   return (
-    <div>
+    <div className="space-y-5">
       <ServicesTable/>
+
     </div>
   )
 }

@@ -81,7 +81,7 @@ const ServiceAddModal = () => {
                                 <Input
                                     id="name"
                                     placeholder="Ingrese el nombre del servicio"
-                                    className="w-full bg-[#0F0F0F] text-[#F7F7F7] border-white-800 focus:ring-brown-200 focus:border-brown-200 placeholder:text-white-800"
+                                    className="w-full bg-transparent text-[#F7F7F7] border-white-800 focus:ring-brown-200 focus:border-brown-200 placeholder:text-white-800"
                                     {...register('name', {
                                         required: 'El nombre del servicio es requerido'
                                     })}
@@ -95,7 +95,7 @@ const ServiceAddModal = () => {
                                     id="price"
                                     type="number"
                                     placeholder="Ingrese el nuevo precio"
-                                    className="w-full bg-[#0F0F0F] text-[#F7F7F7] placeholder:text-white-800 border-white-800 focus:ring-brown-200 focus:border-brown-200"
+                                    className="w-full bg-transparent text-[#F7F7F7] placeholder:text-white-800 border-white-800 focus:ring-brown-200 focus:border-brown-200"
                                     min="0"
                                     {...register('price', {
                                         required: 'El precio es requerido o valido',
@@ -114,14 +114,14 @@ const ServiceAddModal = () => {
                     <ModalFooter className="flex gap-x-3">
                         <button
                             type="submit"
-                            className="bg-Primary-500 px-4 py-2 rounded-md text-white-500 text-sm hover:bg-Primary-600 duration-300"
+                            className="px-4 py-2 text-sm duration-300 rounded-md bg-Primary-500 text-white-500 hover:bg-Primary-600"
                         >
                             Agregar
                         </button>
 
                         <button
                             type="button"
-                            className="bg-red-500 px-4 py-2 rounded-md text-white-500 text-sm hover:bg-red-600 duration-300"
+                            className="px-4 py-2 text-sm duration-300 bg-red-500 rounded-md text-white-500 hover:bg-red-600"
                             onClick={() => navigate(location.pathname, { replace: true })}
                         >
                             Cancelar
