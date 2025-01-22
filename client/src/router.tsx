@@ -15,25 +15,24 @@ import NotFoundView from '@/views/NotFoundView';
 //Application
 import AppLayout from '@/layouts/AppLayout';
 import IndexAppView from '@/views/App/IndexAppView';
-import AboutAppView from '@/views/App/AboutAppView';
-
-//User 
+import AboutAppView from '@/views/App/AboutAppView'; 
 import ProfileAppView from '@/views/App/ProfileAppView';
 import ChangePasswordView from '@/views/App/ChangePasswordView';
 import AppointmentAppView from '@/views/App/AppointmentAppView';
 import MyAppointmentView from '@/views/App/MyAppointmentView';
 import PolicyAppView from '@/views/App/PolicyAppView';
 import AppointmentEditView from '@/views/App/AppointmentEditView';
-import ProductAppView from './views/App/ProductAppView';
-import CartAppView from './views/App/CartAppView';
+import ProductAppView from '@/views/App/ProductAppView';
+import CartAppView from '@/views/App/CartAppView';
 
 //Administrador
-import AdminLayout from './layouts/AdminLayout';
-import DashboardAdmin from './views/Admin/DashboardAdmin';
-import AppointmentAdmin from './views/Admin/AppointmentAdmin';
-import ServicesAdmin from './views/Admin/ServicesAdmin';
-import TestimonialAdmin from './views/Admin/TestimonialAdmin';
-import BarbersAdmin from './views/Admin/BarbersAdmin';
+import AdminLayout from '@/layouts/AdminLayout';
+import DashboardAdmin from '@/views/Admin/DashboardAdmin';
+import AppointmentAdmin from '@/views/Admin/AppointmentAdmin';
+import ServicesAdmin from '@/views/Admin/ServicesAdmin';
+import TestimonialAdmin from '@/views/Admin/TestimonialAdmin';
+import BarbersAdmin from '@/views/Admin/BarbersAdmin';
+import CustomerAdmin from '@/views/Admin/CustomerAdmin';
 
 const router = () => {
     return (
@@ -63,11 +62,12 @@ const router = () => {
                 </Route>
 
                 <Route path='/admin' element={<AdminLayout/>}>
-                    <Route path='/admin' element={<DashboardAdmin/>}/>
+                    <Route path='/admin' index element={<DashboardAdmin/>}/>
                     <Route path='/admin/appointments' element={<AppointmentAdmin/>}/>
                     <Route path='/admin/services' element={<ServicesAdmin/>}/>
                     <Route path='/admin/testimonials' element={<TestimonialAdmin/>}/>
                     <Route path='/admin/barbers' element={<BarbersAdmin/>}/>
+                    <Route path='/admin/customers' element={<CustomerAdmin/>}/>
                 </Route>
 
                 <Route path='*' element={<NotFoundView/>} />

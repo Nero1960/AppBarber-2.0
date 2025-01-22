@@ -35,62 +35,62 @@ export default function AdminLayout() {
                 <div className="flex items-center justify-between p-4">
                     <Logo />
                     <Button variant={'ghost'} size="icon" className="md:hidden hover:bg-transparent" onClick={() => setSidebarOpen(false)}>
-                        <ChevronLeft className="h-6 w-6 text-white-500" />
+                        <ChevronLeft className="w-6 h-6 text-white-500" />
                     </Button>
                 </div>
                 <ScrollArea className="flex-grow">
                     <nav className="p-4 space-y-2">
                         <Link to="/admin" className={`${location.pathname === '/admin' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <Home className="h-5 w-5" />
+                            <Home className="w-5 h-5" />
                             <span>Dashboard</span>
                         </Link>
                         <Link to="/admin/appointments"className={`${location.pathname === '/admin/appointments' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <Calendar className="h-5 w-5" />
+                            <Calendar className="w-5 h-5" />
                             <span>Citas</span>
                         </Link>
                         <Link to="/admin/products"className={`${location.pathname === '/admin/products' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <Package className="h-5 w-5" />
+                            <Package className="w-5 h-5" />
                             <span>Productos</span>
                         </Link>
                         <Link to="/admin/sales"className={`${location.pathname === '/admin/sales' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <ShoppingCart className="h-5 w-5" />
+                            <ShoppingCart className="w-5 h-5" />
                             <span>Ventas</span>
                         </Link>
 
                         <Link to="/admin/testimonials"className={`${location.pathname === '/admin/testimonials' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <List className="h-5 w-5" />
+                            <List className="w-5 h-5" />
                             <span>Testimoniales</span>
                         </Link>
 
                         <Link to="/admin/services"className={`${location.pathname === '/admin/services' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <LayoutDashboard className="h-5 w-5" />
+                            <LayoutDashboard className="w-5 h-5" />
                             <span>Servicios</span>
                         </Link>
                         <Link to="/admin/barbers"className={`${location.pathname === '/admin/barbers' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <User className="h-5 w-5" />
+                            <User className="w-5 h-5" />
                             <span>Barberos</span>
                         </Link>
-                        <Link to="/admin/users"className={`${location.pathname === '/admin/users' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                            <Users className="h-5 w-5" />
+                        <Link to="/admin/customers"className={`${location.pathname === '/admin/customers' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
+                            <Users className="w-5 h-5" />
                             <span>Clientes</span>
                         </Link>
                     </nav>
                 </ScrollArea>
                 <div className="p-4 ">
                     <Link to="/admin/settings"className={`${location.pathname === '/admin/settings' ? 'bg-Primary-500' : 'bg-transparent' } flex items-center space-x-2 text-white-500 hover:bg-Primary-500 duration-200 rounded-md p-2`}>
-                        <Settings className="h-5 w-5" />
+                        <Settings className="w-5 h-5" />
                         <span>Configuración</span>
                     </Link>
                 </div>
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex flex-col flex-1 overflow-hidden">
                 {/* Top Bar */}
-                <header className="bg-brown-500 flex items-center justify-between p-6">
+                <header className="flex items-center justify-between p-6 bg-brown-500">
                     <div className="flex items-center">
-                        <Button variant="ghost" size="icon" className="md:hidden mr-2 hover:bg-brown-500" onClick={() => setSidebarOpen(true)}>
-                            <Menu className="h-6 w-6 text-white-500" />
+                        <Button variant="ghost" size="icon" className="mr-2 md:hidden hover:bg-brown-500" onClick={() => setSidebarOpen(true)}>
+                            <Menu className="w-6 h-6 text-white-500" />
                         </Button>
                         <div className="relative hidden lg:flex">
                         
@@ -103,7 +103,7 @@ export default function AdminLayout() {
                 </header>
 
 
-                <main className="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                <main className="flex-1 p-6 overflow-x-hidden overflow-y-auto">
                     <Outlet/>
                 </main>
             </div>
