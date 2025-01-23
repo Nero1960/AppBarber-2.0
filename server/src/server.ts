@@ -14,6 +14,7 @@ import testimonialRoute from './routes/testimonialRoute'
 import productRoute from './routes/productRoute';
 import cartRoute from './routes/cartRoute';
 import reportRoute from './routes/reportRoute';
+import customerRoute from './routes/customerRoute'
 
 
 //Instancia de express
@@ -56,6 +57,7 @@ server.use('/api/appointment', appointmentRoute);
 server.use('/api/product', productRoute);
 server.use('/api/cart', cartRoute)
 server.use('/api/report', reportRoute);
+server.use('/api/customer', customerRoute)
 
 
 
