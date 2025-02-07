@@ -8,29 +8,32 @@ export class CustomerController {
 
     public static getCustomers = async (request: Request, response: Response) => {
         try {
-
-            const customers = await Appointment.findAll({
-                where: {
-                    status: 'completed'
-                },
+            const customers = await User.findAll({
                 attributes: [
                     'userId',
-                    [fn('MAX', col('date')), 'lastVisit']
+                    'name',
+                    'email',
+                    'lastname',
+                    'image',
+                    'phone',
+                    [fn('COUNT', col('Appointment.appointmentId')), 'totalAppointments'], // Cuenta citas asociadas
+                    [fn('MAX', col('Appointment.date')), 'lastAppointment'] // Última cita asociada
                 ],
                 include: [
                     {
-                        model: User,
-                        attributes: ['name', 'lastname', 'image', 'phone']
+                        model: Appointment,
+                        attributes: [], // No necesitamos columnas de Appointment directamente
+                        required: false // LEFT JOIN para incluir usuarios sin citas
                     }
                 ],
-                group: ['userId'],
-                order: [[literal('lastVisit'), 'DESC']],
-
+                group: ['userId'], // Agrupa por la clave primaria del modelo User
+                order: [[literal('totalAppointments'), 'DESC']] // Ordena por total de citas
             });
 
-            response.status(200).json(customers)
+            response.status(200).json(customers);
 
         } catch (error) {
+            console.log(error);
             const err = new Error("Oops! Error del servidor");
             response.status(500).json({ error: err.message })
         }
@@ -120,6 +123,28 @@ export class CustomerController {
             })
 
             response.status(200).json(totalServices)
+
+        } catch (error) {
+            const err = new Error("Oops! Error del servidor");
+            response.status(500).json({ error: err.message })
+        }
+
+    }
+
+    public static deleteCustomer = async (request: Request, response: Response) => {
+        try {
+            const userId = +request.params.userId;
+
+            const customer = await User.findByPk(userId);
+
+            if (!customer) {
+                const error = new Error("Este usuario no existe");
+                return response.status(401).json({ error: error.message })
+            }
+
+            await customer.destroy();
+
+            response.status(200).send("Usuario eliminado correctamente");
 
         } catch (error) {
             const err = new Error("Oops! Error del servidor");

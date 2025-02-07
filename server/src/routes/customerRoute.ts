@@ -2,6 +2,7 @@ import  { Router } from "express"
 import { authenticate } from "../middleware/auth";
 import { isAdmin } from "../middleware/admin";
 import { CustomerController } from "../controllers/customerController";
+import { param } from "express-validator";
 
 const route = Router();
 
@@ -39,5 +40,14 @@ route.get(
     authenticate,
     isAdmin,
     CustomerController.totalServiceMonth
+)
+
+route.delete(
+    '/:userId/delete',
+    param('userId')
+        .isNumeric().withMessage('ID del usuario no valido'),
+    authenticate,
+    isAdmin,
+    CustomerController.deleteCustomer
 )
 export default route;
