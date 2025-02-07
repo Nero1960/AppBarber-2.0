@@ -2,7 +2,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -169,8 +168,8 @@ export default function AppointmentsTable() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col md:flex-row justify-between ">
-              <div className="flex flex-col md:flex-row gap-4 mb-4">
+            <div className="flex flex-col justify-between md:flex-row ">
+              <div className="flex flex-col gap-4 mb-4 md:flex-row">
                 <Select
                   value={queryStatus}
                   onValueChange={appointmentStatusHandleChange}
@@ -225,7 +224,7 @@ export default function AppointmentsTable() {
               </div>
 
               <Button
-                className="bg-transparent my-0 hover:bg-white-500 hover:text-black-500 flex items-center gap-x-1 border border-white-500"
+                className="flex items-center my-0 bg-transparent border hover:bg-white-500 hover:text-black-500 gap-x-1 border-white-500"
                 size={"sm"}
                 onClick={handleClickReset}
               >
@@ -253,7 +252,7 @@ export default function AppointmentsTable() {
                     >
                       <TableCell>
                         <div className="flex items-center space-x-2">
-                          <Avatar className="h-8 w-8">
+                          <Avatar className="w-8 h-8">
                             <AvatarImage
                               src={`${import.meta.env.VITE_IMAGE_URL}/${
                                 appointment.user.image
@@ -272,7 +271,7 @@ export default function AppointmentsTable() {
                               {appointment.user.name}{" "}
                               {appointment.user.lastname}
                             </p>
-                            <p className="opacity-30 font-bold">
+                            <p className="font-bold opacity-30">
                               {appointment.user.email}
                             </p>
                           </div>
@@ -280,7 +279,7 @@ export default function AppointmentsTable() {
                       </TableCell>
                       <TableCell className="flex flex-col space-y-2">
                         <div className="flex items-center gap-x-1">
-                          <Calendar className="text-brown-200 text-xs" />
+                          <Calendar className="text-xs text-brown-200" />
                           {formatDate(appointment.date)}
                         </div>
 
@@ -302,7 +301,7 @@ export default function AppointmentsTable() {
 
                       <TableCell>
                         <div className="flex items-center space-x-2">
-                          <Avatar className="h-8 w-8">
+                          <Avatar className="w-8 h-8">
                             <AvatarImage
                               src={`${import.meta.env.VITE_IMAGE_URL}/${
                                 appointment.barbero.image
@@ -332,19 +331,19 @@ export default function AppointmentsTable() {
                               )
                             }
                           >
-                            <Eye className="h-4 w-4 text-white-500" />
+                            <Eye className="w-4 h-4 text-white-500" />
                           </Button>
                           <Button
                             size="sm"
                             variant="outline"
-                            className="bg-red-500 text-white hover:bg-red-600 border-none"
+                            className="text-white bg-red-500 border-none hover:bg-red-600"
                             onClick={() =>
                               handleClickDeleteAppointment(
                                 appointment.appointmentId
                               )
                             }
                           >
-                            <Trash2 className="h-4 w-4 text-white-50" />
+                            <Trash2 className="w-4 h-4 text-white-50" />
                           </Button>
                         </div>
                       </TableCell>

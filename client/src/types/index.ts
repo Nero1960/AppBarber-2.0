@@ -343,11 +343,12 @@ export const topCustomersSchema = z.object({
 })
 
 export const topCustomersSchemaArray = z.array(topCustomersSchema);
-export type TopCustomers = z.infer<typeof topCustomersSchemaArray>
+export type TopCustomer = z.infer<typeof topCustomersSchema>;
+export type TopCustomers = z.infer<typeof topCustomersSchemaArray>;
 
 
 //Schema para todas las citas en el panel de administrador
-export const allAppointmentsSchema =  appointmentSchema.pick({
+export const allAppointmentsSchema = appointmentSchema.pick({
     appointmentId: true,
     status: true,
     time: true,
@@ -355,7 +356,7 @@ export const allAppointmentsSchema =  appointmentSchema.pick({
 }).extend({
     user: userSchema.pick({
         name: true,
-        lastname:true,
+        lastname: true,
         email: true,
         image: true
     }),
@@ -367,7 +368,7 @@ export const allAppointmentsSchema =  appointmentSchema.pick({
 });
 
 export const allAppointmentsSchemaArray = z.array(allAppointmentsSchema);
-export type AllAppointments = z.infer< typeof allAppointmentsSchemaArray>;
+export type AllAppointments = z.infer<typeof allAppointmentsSchemaArray>;
 
 //Schema para  el modal de la cita.
 export const appointmentDetailsAdminSchema = appointmentSchema.pick({
@@ -378,8 +379,8 @@ export const appointmentDetailsAdminSchema = appointmentSchema.pick({
 }).extend({
     user: userSchema.pick({
         name: true,
-        lastname:true,
-        image:true
+        lastname: true,
+        image: true
     }),
     services: z.array(serviceSchema.pick({
         name: true,
@@ -408,3 +409,29 @@ export const cancellationReasonSchema = z.object({
 })
 export const cancellationReasonSchemaArray = z.array(cancellationReasonSchema);
 export type CancellationReason = z.infer<typeof cancellationReasonSchemaArray>;
+
+//customers
+export const customersSchema = userSchema.pick({
+    userId: true,
+    name: true,
+    email: true,
+    lastname: true,
+    image: true,
+    phone: true
+}).extend({
+    totalAppointments: z.number(),
+    lastAppointment: z.string().or(z.null())
+})
+export const customersSchemaArray = z.array(customersSchema);
+
+export type Customer = z.infer<typeof customersSchema>;
+export type Customers = z.infer<typeof customersSchemaArray>;
+
+export const appointmentDataSchema = z.object({
+    month: z.string(),
+    totalAppointments: z.number()
+})
+
+export const appointmentDataSchemaArray = z.array(appointmentDataSchema);
+
+export type AppointmentData = z.infer<typeof appointmentDataSchemaArray>;
