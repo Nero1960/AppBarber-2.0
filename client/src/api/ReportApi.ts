@@ -72,8 +72,7 @@ export const getTopCustomers = async () => {
         const { data } = await api.get(url);
 
         const response = topCustomersSchemaArray.safeParse(data);
-        console.log(data);
-        console.log(response)
+
         if (response.success) {
             return response.data;
         }
@@ -90,14 +89,13 @@ export const getAllAppointments = async () => {
         const url = '/report/getAllAppointments';
         const { data } = await api.get(url);
 
-        
+
         const response = allAppointmentsSchemaArray.safeParse(data);
 
-        console.log(response)
-        if(response.success){
+        if (response.success) {
             return response.data;
         }
-        
+
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
@@ -105,13 +103,13 @@ export const getAllAppointments = async () => {
     }
 }
 
-export const getAppointmentAdminById = async (appointmentId : number) => {
+export const getAppointmentAdminById = async (appointmentId: number) => {
     try {
         const url = `/report/appointment/${appointmentId}`;
         const { data } = await api.get(url);
         const response = appointmentDetailsAdminSchema.safeParse(data);
 
-        if(response.success){
+        if (response.success) {
             return response.data;
         }
 
@@ -123,12 +121,12 @@ export const getAppointmentAdminById = async (appointmentId : number) => {
 
 }
 
-export const updateAppointmentStatus = async ({appointmentId, status} : {appointmentId : Appointments['appointmentId'], status: Appointments['status']}) => {
+export const updateAppointmentStatus = async ({ appointmentId, status }: { appointmentId: Appointments['appointmentId'], status: Appointments['status'] }) => {
     try {
         const url = `/report/appointment/${appointmentId}/status`;
         const { data } = await api.patch<string>(url, { status });
         return data;
-        
+
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
@@ -143,10 +141,10 @@ export const getStatusData = async () => {
         const { data } = await api.get(url);
 
         const response = statusDataSchemaArray.safeParse(data);
-        if(response.success){
+        if (response.success) {
             return response.data;
         }
-        
+
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
@@ -160,14 +158,12 @@ export const getCancellationReasonsData = async () => {
         const url = `/report/appointment/cancellation/data`;
         const { data } = await api.get(url);
 
-        console.log(data)
 
         const response = cancellationReasonSchemaArray.safeParse(data);
-        console.log(response)
-        if(response.success){
+        if (response.success) {
             return response.data;
         }
-        
+
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
