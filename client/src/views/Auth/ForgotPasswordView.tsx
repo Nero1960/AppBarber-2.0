@@ -36,14 +36,14 @@ const ForgotPasswordView = () => {
     return (
         <>
 
-            <div className=" py-5 px-7">
-                <div className="flex justify-between items-center lg:justify-end">
+            <div className="py-5  px-7">
+                <div className="flex items-center justify-between lg:justify-end">
                     <div className="flex lg:hidden">
                         <Logo />
                     </div>
                     <Link
                         to={'/register'}
-                        className="text-white-500  hover:bg-brown-500 py-2 rounded-md px-4 duration-300"
+                        className="px-4 py-2 duration-300 rounded-md text-white-500 hover:bg-brown-500"
 
                     >Regístrate</Link>
                 </div>
@@ -88,7 +88,7 @@ const ForgotPasswordView = () => {
 
 
 
-                        <Link to={'/'} className="text-brown-200 text-sm uppercase text-center login-with grid grid-cols-3 gap-x-3 mb-5">Iniciar Sesión</Link>
+                        <Link to={'/'} className="grid grid-cols-3 mb-5 text-sm text-center uppercase text-brown-200 login-with gap-x-3">Iniciar Sesión</Link>
 
                         {isPending && (
                             <div className='flex items-center justify-center my-3'>
@@ -100,7 +100,7 @@ const ForgotPasswordView = () => {
                         <Input
                             type="submit"
                             value={`${isPending ? 'Enviando instrucciones' : 'Enviar Instrucciones'}`}
-                            className="hover:bg-white-500 duration-300 cursor-pointer mb-5 mt-2"
+                            className="mb-5 duration-300 border-none cursor-pointer text-white-500 bg-Primary-500 hover:bg-Primary-600"
                         />
 
 
