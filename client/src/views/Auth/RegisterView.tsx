@@ -44,21 +44,21 @@ const RegisterView = () => {
     return (
         <>
 
-            <div className=" py-5 px-7 h-screen">
-                <div className="flex justify-between items-center lg:justify-end">
+            <div className="h-screen py-5 px-7">
+                <div className="flex items-center justify-between lg:justify-end">
                     <div className="flex lg:hidden">
                         <Logo />
                     </div>
                     <Link
                         to={'/'}
-                        className="text-white-500  hover:bg-brown-500 py-2 rounded-md px-4 duration-300"
+                        className="px-4 py-2 duration-300 rounded-md text-white-500 hover:bg-brown-500"
 
                     >Iniciar Sesión</Link>
                 </div>
 
                 <div className="flex flex-col justify-center items-center  lg:h-[90vh]">
 
-                    <div className="mb-5 space-y-1 mt-5 lg:mt-0">
+                    <div className="mt-5 mb-5 space-y-1 lg:mt-0">
                         <h1 className="text-2xl font-bold text-center text-white-500">Crea una Cuenta </h1>
                         <p className=" text-brown-200 text-md text-center max-w-[400px]">Regístrate y descubre una experiencia de estilo personalizada. ¡Empieza hoy! </p>
                     </div>
@@ -113,7 +113,7 @@ const RegisterView = () => {
 
                         </div>
 
-                        <div className='grid  grid-cols-1 lg:grid-cols-2 gap-x-3'>
+                        <div className='grid grid-cols-1 lg:grid-cols-2 gap-x-3'>
                             <div className="mb-3">
                                 <Label
                                     htmlFor="phone"
@@ -214,7 +214,7 @@ const RegisterView = () => {
                             )}
                         </div>
 
-                        <Link to={'/forgot-password'} className="text-brown-200 text-sm uppercase text-center login-with grid grid-cols-3 mb-5">¿Olvidaste tu contraseña?</Link>
+                        <Link to={'/forgot-password'} className="grid grid-cols-3 mb-5 text-sm text-center uppercase text-brown-200 login-with">¿Olvidaste tu contraseña?</Link>
 
                         {isPending && (
                             <div className='flex items-center justify-center my-3'>
@@ -225,7 +225,7 @@ const RegisterView = () => {
                         <Input
                             type="submit"
                             value={`${isPending ? 'Creando Cuenta' : 'Crear Cuenta'} `}
-                            className="hover:bg-white-500 duration-300 cursor-pointer mb-5"
+                            className="mb-5 duration-300 border-none cursor-pointer text-white-500 bg-Primary-500 hover:bg-Primary-600"
                         />
 
 

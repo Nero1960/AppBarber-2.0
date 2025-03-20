@@ -1,175 +1,70 @@
-import type { Request, Response } from "express"
-import Service from "../models/Service";
-import { col, fn, Op } from "sequelize";
-import Appointment from "../models/Appointment";
-import AppointmentService from "../models/AppointmentService";
+import type { NextFunction, Request, Response } from "express"
+import { IServiceService } from "../interfaces/services/IServiceService";
 
 class ServiceController {
 
-    public static getAllServices = async (request: Request, response: Response) => {
+    constructor(private serviceService: IServiceService){}
+
+    public getAllServices = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const services = await Service.findAll();
-            response.status(200).json(services);
+            const services = await this.serviceService.getServices();
+            response.status(200).json(services)
         } catch (error) {
-            const err = new Error('Oops! Something wrong happened');
-            return response.status(500).json({ error: err.message })
+            next(error)
         }
     }
 
-    public static getServiceById = async (request: Request, response: Response) => {
-
+    public getServiceById = async (request: Request, response: Response, next: NextFunction) => {
         try {
-
             const serviceId = +request.params.serviceId;
-
-            const service = await Service.findByPk(serviceId);
-
-            if (!service) {
-                const error = new Error('Servicio no encontrado');
-                return response.status(404).json({ error: error.message });
-            }
-
+            const service = await this.serviceService.getServiceById(serviceId);
             response.status(200).json(service);
 
         } catch (error) {
-            const err = new Error('Oops! Something wrong happened');
-            return response.status(500).json({ error: err.message })
+            next(error)
         }
-
     }
 
-    public static newService = async (request: Request, response: Response) => {
+    public newService = async (request: Request, response: Response, next : NextFunction) => {
         try {
-            const service = new Service(request.body);
-            await service.save();
-            response.status(201).json(service);
-
+            const newService = await this.serviceService.createService(request.body);
+            response.status(201).send(newService)
         } catch (error) {
-            console.log(error)
-            const err = new Error('Oops! Something wrong happened');
-            return response.status(500).json({ error: err.message })
-
+            next(error)
         }
 
     }
 
-    public static updateService = async (request: Request, response: Response) => {
+    public updateService = async (request: Request, response: Response, next : NextFunction) => {
+        try {
+            const serviceId = +request.params.serviceId;
+            const serviceUpdated = await this.serviceService.updateService(serviceId, request.body);
+            response.status(200).json(serviceUpdated);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public deleteService = async (request: Request, response: Response, next: NextFunction) => {
 
         try {
             const serviceId = +request.params.serviceId;
-
-            const service = await Service.findByPk(serviceId, {
-                attributes: {exclude: ['createdAt']}
-            });
-
-            if (!service) {
-                const error = new Error('Servicio no encontrado');
-                return response.status(404).json({ error: error.message });
-            }
-
-            //actualizar el servicio
-            service.name = request.body.name;
-            service.price = request.body.price;
-
-            await service.save();
-
-            response.status(200).json(service);
-
-
-        } catch (error) {
-            const err = new Error('Oops! Something wrong happened');
-            return response.status(500).json({ error: err.message })
-        }
-    }
-
-    public static deleteService = async (request: Request, response: Response) => {
-
-        try {
-            const serviceId = +request.params.serviceId;
-
-            const service = await Service.findByPk(serviceId);
-
-            if (!service) {
-                const error = new Error('Servicio no encontrado');
-                return response.status(404).json({ error: error.message });
-            }
-
-            await service.destroy();
-
+            await this.serviceService.deleteService(serviceId);
             response.status(200).send('Servicio eliminado correctamente');
-
         } catch (error) {
-            const err = new Error('Oops! Something wrong happened');
-            return response.status(500).json({ error: err.message })
+            next(error)
         }
     }
 
-    public static getTopServices = async (request: Request, response: Response) => {
+    public getTopServices = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const { period } = request.query as any;
-            const today = new Date();
-            let startDate: Date;
-            let endDate: Date;
-    
-            // Determinar el rango de fechas según el periodo especificado
-            switch (period) {
-                case 'month':
-                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Último día del mes actual
-                    break;
-                case 'week':
-                    startDate = new Date(today);
-                    startDate.setDate(today.getDate() - today.getDay());
-                    endDate = new Date(startDate);
-                    endDate.setDate(startDate.getDate() + 6); // Último día de la semana
-                    break;
-                case 'day':
-                    startDate = new Date(today);
-                    startDate.setHours(0, 0, 0, 0); // Inicio del día
-                    endDate = new Date(today);
-                    endDate.setHours(23, 59, 59, 999); // Fin del día
-                    break;
-                default:
-                    return response.status(400).json({ error: 'Invalid period specified.' });
-            }
-    
-            console.log('Fecha de inicio:', startDate);
-            console.log('Fecha de fin:', endDate);
-    
-            // Consulta a la base de datos para obtener los servicios más solicitados
-            const topServices = await AppointmentService.findAll({
-                include: [
-                    {
-                        model: Appointment,
-                        where: {
-                            date: { [Op.between]: [startDate, endDate] },
-                            status: 'completed'
-                        },
-                        attributes: []
-                    },
-                    {
-                        model: Service,
-                        attributes: []
-                    }
-                ],
-                attributes: [
-                    'AppointmentService.serviceId',
-                    [fn('COUNT', col('AppointmentService.serviceId')), 'count'],
-                    [col('service.name'), 'name']
-                ],
-                limit: 3,
-                group: ['AppointmentService.serviceId', 'Service.name'],
-                order: [[fn('COUNT', col('AppointmentService.serviceId')), 'DESC']]    
-            });
-    
-            response.status(200).json(topServices);
+            const { period } = request.query;
+            const topServices =  await this.serviceService.getTopServices(period as string);
+            response.status(200).json(topServices)
         } catch (error) {
-            console.log(error);
-            const err = new Error('Oops! Something went wrong.');
-            return response.status(500).json({ error: err.message });
+            next(error)
         }
-    };
-    
+    };   
 }
 
 export default ServiceController;

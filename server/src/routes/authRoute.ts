@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { body, param } from 'express-validator'
 import { handleInputErrors } from "../middleware/Validation";
-import AuthController from "../controllers/authController";
 import { authenticate } from "../middleware/auth";
+import { authController } from "../config/container";
 
 const route = Router();
 
@@ -26,7 +26,7 @@ route.post(
     body('password')
         .isLength({ min: 8 }).withMessage('El password es muy corto, mínimo 8 caracteres'),
     handleInputErrors,
-    AuthController.createAccount
+    authController.createAccount
 );
 
 route.post(
@@ -34,7 +34,7 @@ route.post(
     body('token')
        .notEmpty().withMessage('EL token no debe ir vació'),
     handleInputErrors,
-    AuthController.confirmAccount    
+    authController.confirmAccount
 )
 
 route.post(
@@ -44,7 +44,7 @@ route.post(
     body('password')
        .notEmpty().withMessage('El password es requerido'),
     handleInputErrors,
-    AuthController.login
+    authController.login
 )
 
 route.post(
@@ -53,7 +53,7 @@ route.post(
         .notEmpty().withMessage('El email no puede ir vacío')
         .isEmail().withMessage('Email No valido'),
     handleInputErrors,
-    AuthController.requestConfirmationToken
+    authController.requestConfirmationToken
 )
 
 route.post(
@@ -61,7 +61,7 @@ route.post(
     body('email')
     .isEmail().withMessage('Email no válido'),
     handleInputErrors,
-    AuthController.forgotPassword
+    authController.forgotPassword
 )
 
 route.post(
@@ -69,7 +69,7 @@ route.post(
     body('token')
         .notEmpty().withMessage('El token no debe ir vacío'),
     handleInputErrors,
-    AuthController.validateToken
+    authController.validateToken
 )
 
 route.post(
@@ -86,14 +86,14 @@ route.post(
     }),
     
     handleInputErrors,
-    AuthController.updatePasswordWithToken
+    authController.updatePasswordWithToken
     
 )
 
 route.get(
     '/profile',
     authenticate,
-    AuthController.getProfile
+    authController.getProfile
 )
 
 

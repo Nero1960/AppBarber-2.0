@@ -7,9 +7,14 @@ interface IEmail {
     token: string
 }
 
-class AuthEmail {
+export interface IEmailService {
+    sendEmailConfirmAccount(user: IEmail): Promise<void>;
+    sendEmailResetPassword(user: IEmail): Promise<void>;
+}
 
-    public static sendEmailConfirmAccount = async ( user : IEmail) => {
+class EmailService implements IEmailService {
+
+    public sendEmailConfirmAccount = async ( user : IEmail) => {
 
          await transport.sendMail({
             from: "Bienvenido a Mojica's BarberShop",
@@ -28,7 +33,7 @@ class AuthEmail {
 
     }
 
-    public static sendEmailResetPassword = async (user : IEmail) => {
+    public sendEmailResetPassword = async (user : IEmail) => {
         await transport.sendMail({
             from: "Restablecer contraseña en Mojica's BarberShop",
             to: user.email,
@@ -45,4 +50,4 @@ class AuthEmail {
     }
 }
 
-export default AuthEmail;
+export default EmailService;

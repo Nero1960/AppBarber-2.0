@@ -3,25 +3,16 @@ import dotenv from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors'
 import {corsConfig } from './config/cors'
+import routes from "./routes"
 import colors from 'colors'
 import db from './config/database';
-import authRoute from './routes/authRoute';
-import serviceRoute from './routes/serviceRoute';
-import barberRoute from './routes/barberRoute';
-import profileRoute from './routes/profileRoute';
-import appointmentRoute from './routes/appointmentRoute';
-import testimonialRoute from './routes/testimonialRoute'
-import productRoute from './routes/productRoute';
-import cartRoute from './routes/cartRoute';
-import reportRoute from './routes/reportRoute';
-import customerRoute from './routes/customerRoute'
+import { errorHandler } from './middleware/errorHandler';
 
 
 //Instancia de express
 const server = express();
 
 //variables de entorno
-
 dotenv.config();
 
 //uso de cors para permitir peticiones desde cualquier dominio
@@ -47,21 +38,11 @@ connectDB();
 
 server.use(morgan('dev'))
 
-//hacer uso de los router
-server.use('/api/auth', authRoute);
-server.use('/api/service', serviceRoute);
-server.use('/api/barber', barberRoute );
-server.use('/api/profile', profileRoute);
-server.use('/api/testimonial', testimonialRoute);
-server.use('/api/appointment', appointmentRoute);
-server.use('/api/product', productRoute);
-server.use('/api/cart', cartRoute)
-server.use('/api/report', reportRoute);
-server.use('/api/customer', customerRoute)
+//hacer uso de los router, revisar archivo index del route.ts
+server.use('/api', routes)
 
-
+//Manejo de errores
+server.use(errorHandler);
 
 server.use('/uploads', express.static('src/uploads'));
-
-
 export default server;

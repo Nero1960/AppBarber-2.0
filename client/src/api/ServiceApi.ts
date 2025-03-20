@@ -6,7 +6,7 @@ export const getServices = async () => {
 
     try {
 
-        const url = '/service/get-services';
+        const url = '/service/services';
         const { data } = await api.get(url);
 
         const response = serviceSchemaArray.safeParse(data);
@@ -25,7 +25,7 @@ export const getServices = async () => {
 
 export const getServiceById = async (serviceId: Service['serviceId']) => {
     try {
-        const url = `/service/get-services/${serviceId}`;
+        const url = `/service/${serviceId}`;
         const { data } = await api.get(url);
 
         const response = serviceSchema.safeParse(data);
@@ -61,7 +61,7 @@ export const getTopServices = async (period: string) => {
 export const updateServiceAdmin = async ({ formData, serviceId }: { formData: Service, serviceId: Service['serviceId'] }) => {
 
     try {
-        const url = `/service/update-service/${serviceId}`;
+        const url = `/service/${serviceId}/update`;
         const { data } = await api.put(url, formData);
 
         const response = serviceSchema.safeParse(data);
@@ -80,7 +80,7 @@ export const updateServiceAdmin = async ({ formData, serviceId }: { formData: Se
 
 export const addNewService = async ( {formData} : {formData : Service}) => {
     try {
-        const url = '/service/add-services';
+        const url = '/service/create';
         const {data } = await api.post(url, formData )
 
         const response = serviceSchema.safeParse(data);
@@ -99,7 +99,7 @@ export const addNewService = async ( {formData} : {formData : Service}) => {
 
 export const deleteServiceById = async (serviceId: Service['serviceId']) => {
     try {
-        const url = `/service/delete-service/${serviceId}`;
+        const url = `/service/${serviceId}/delete`;
         const { data } = await api.delete<string>(url);
         return data;
         

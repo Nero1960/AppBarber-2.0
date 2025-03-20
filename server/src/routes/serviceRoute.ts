@@ -3,7 +3,7 @@ import { handleInputErrors } from "../middleware/Validation";
 import { authenticate } from '../middleware/auth'
 import { isAdmin } from '../middleware/admin'
 import { Router } from 'express';
-import ServiceController from '../controllers/serviceController';
+import { serviceController } from '../config/container';
 
 const route = Router();
 
@@ -12,57 +12,56 @@ route.use(authenticate);
 
 route.get(
     '/get-services',
-    ServiceController.getAllServices
+    serviceController.getAllServices
 );
-
-route.get(
-    '/get-services/:serviceId',
-    param('serviceId')
-        .isNumeric().withMessage('ID no valido'),
-    handleInputErrors,
-    isAdmin,
-    ServiceController.getServiceById
-);
-
-route.post(
-    '/add-services',
-    isAdmin,
-    body('name')
-        .notEmpty().withMessage('El nombre del servicio es requerido'),
-    body('price')
-        .notEmpty().withMessage('El precio del servicio es requerido'),
-    handleInputErrors,
-    ServiceController.newService
-)
-
-route.put(
-    '/update-service/:serviceId',
-    isAdmin,
-    param('serviceId')
-        .isNumeric().withMessage('ID no valido'),
-    body('name')
-        .notEmpty().withMessage('El nombre del servicio es requerido'),
-    body('price')
-        .notEmpty().withMessage('El precio del servicio es requerido'),
-    handleInputErrors,
-    ServiceController.updateService
-)
-
-route.delete(
-    '/delete-service/:serviceId',
-    isAdmin,
-    param('serviceId')
-        .isNumeric().withMessage('ID no valido'),
-    handleInputErrors,
-    ServiceController.deleteService
-)
 
 route.get(
     '/get-top-services',
     isAdmin,
-    ServiceController.getTopServices
+    serviceController.getTopServices
 )
 
+route.get(
+    '/:serviceId',
+    isAdmin,
+    param('serviceId')
+        .isNumeric().withMessage('ID no valido'),
+    handleInputErrors,
+    serviceController.getServiceById
+);
+
+route.post(
+    '/create',
+    isAdmin,
+    body('name')
+        .notEmpty().withMessage('El nombre del servicio es requerido'),
+    body('price')
+        .notEmpty().withMessage('El precio del servicio es requerido'),
+    handleInputErrors,
+    serviceController.newService
+)
+
+route.put(
+    '/:serviceId/update',
+    isAdmin,
+    param('serviceId')
+        .isNumeric().withMessage('ID no valido'),
+    body('name')
+        .notEmpty().withMessage('El nombre del servicio es requerido'),
+    body('price')
+        .notEmpty().withMessage('El precio del servicio es requerido'),
+    handleInputErrors,
+    serviceController.updateService
+)
+
+route.delete(
+    '/:serviceId/delete',
+    isAdmin,
+    param('serviceId')
+        .isNumeric().withMessage('ID no valido'),
+    handleInputErrors,
+    serviceController.deleteService
+)
 
 
 export default route;

@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import AppError from '../errors/AppError';
 
 declare global {
     namespace Express {
@@ -11,13 +12,10 @@ declare global {
 }
 
 export const authenticate = async (request: Request, response: Response, next: NextFunction) => {
-
-
     const bearer = request.headers.authorization;
 
     if (!bearer) {
-        const error = new Error('No authorization');
-        return response.status(401).json({ msg: error.message })
+        throw new AppError('No authorization', 401);
     }
 
     const token = bearer.split(' ')[1];
@@ -38,13 +36,12 @@ export const authenticate = async (request: Request, response: Response, next: N
 
             } else {
                 //en caso de que el usuario haya eliminado su cuenta pero el token exista
-                const error = new Error('Token No valido');
-                return response.status(500).json({ error: error.message });
+                throw new AppError('Token no valid o Expirado', 401);
             }
         }
 
     } catch (error) {
-        response.status(500).json({ error: "Token no valido" });
+        response.status(500).json({ error: "Token de autenticación no valido" });
     }
 
 }
