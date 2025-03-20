@@ -27,8 +27,8 @@ class ServiceController {
 
     public newService = async (request: Request, response: Response, next : NextFunction) => {
         try {
-            await this.serviceService.createService(request.body);
-            response.status(201).send('Servicio creado correctamente')
+            const newService = await this.serviceService.createService(request.body);
+            response.status(201).send(newService)
         } catch (error) {
             next(error)
         }
@@ -38,8 +38,8 @@ class ServiceController {
     public updateService = async (request: Request, response: Response, next : NextFunction) => {
         try {
             const serviceId = +request.params.serviceId;
-            await this.serviceService.updateService(serviceId, request.body);
-            response.status(200).send('Servicio actualizado correctamente')      
+            const serviceUpdated = await this.serviceService.updateService(serviceId, request.body);
+            response.status(200).json(serviceUpdated);
         } catch (error) {
             next(error)
         }

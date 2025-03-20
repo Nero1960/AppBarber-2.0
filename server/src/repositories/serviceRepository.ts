@@ -3,6 +3,7 @@ import { IServiceRepository } from "../interfaces/repositories/IServiceRepositor
 import Service from "../models/Service";
 import AppointmentService from "../models/AppointmentService";
 import Appointment from "../models/Appointment";
+import { Services } from "../types";
 
 class ServiceRepository implements IServiceRepository {
     //Obtener todos los servicios
@@ -14,12 +15,12 @@ class ServiceRepository implements IServiceRepository {
         return await Service.findByPk(id)
     }
 
-    async save(service: Service): Promise<void> {
-        await service.save()
+    async save(service: Service): Promise<Services> {
+        return await service.save()
     }
 
-    async update(id: Service["serviceId"], data: Pick<Service, "name" | "price">): Promise<void> {
-        await Service.update(
+    async update(id: Service["serviceId"], data: Pick<Service, "name" | "price">) : Promise<Services> {
+         await Service.update(
             {
                 name: data.name,
                 price: data.price
@@ -28,8 +29,9 @@ class ServiceRepository implements IServiceRepository {
                 where: {
                     serviceId: id
                 }
-            }
+            },
         )
+        return await this.findById(id)
     }
 
     async destroy(service: Service): Promise<void> {

@@ -2,7 +2,7 @@ import AppError from "../errors/AppError";
 import { IServiceRepository } from "../interfaces/repositories/IServiceRepository";
 import { IServiceService } from "../interfaces/services/IServiceService";
 import Service from "../models/Service";
-import { TopServices } from "../types";
+import { Services, TopServices } from "../types";
 
 class ServiceService implements IServiceService {
 
@@ -21,14 +21,15 @@ class ServiceService implements IServiceService {
         return service;
     }
 
-    async createService(data: Pick<Service, "name" | "price">): Promise<void> {
+    async createService(data: Pick<Service, "name" | "price">): Promise<Services> {
         const service = new Service(data);
-        await this.serviceRepository.save(service);
+        return await this.serviceRepository.save(service);
     }
 
-    async updateService(id: Service["serviceId"], data: Pick<Service, "name" | "price">): Promise<void> {
+    async updateService(id: Service["serviceId"], data: Pick<Service, "name" | "price">): Promise<Pick<Service, 'serviceId' | 'name' | 'price'>> {
         await this.getServiceById(id);
-        await this.serviceRepository.update(id, data);
+        return await this.serviceRepository.update(id, data);
+        
     }
 
     async deleteService(id: Service["serviceId"]): Promise<void> {
