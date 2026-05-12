@@ -1,0 +1,22 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://appbarber-2-0.onrender.com",
+      "localStorage": [
+        {
+          "name": "chakra-ui-color-mode",
+          "value": "light"
+        },
+        {
+          "name": "AUTH_TOKEN",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWRtaW4iOjAsImlhdCI6MTc3ODUzNzM4NSwiZXhwIjoxNzk0MDg5Mzg1fQ.Y-Ym6y4Dhc__PleXJo8HRNF1PIwHZskkcKVcvhAVZXE"
+        },
+        {
+          "name": "userAuthenticated",
+          "value": "{\"state\":{\"user\":{\"userId\":3,\"name\":\"Andy\",\"lastname\":\"Mena\",\"phone\":\"75422545\",\"email\":\"andy.mena@correo.com\",\"admin\":0,\"address\":null,\"image\":\"default.png\"}},\"version\":0}"
+        }
+      ]
+    }
+  ]
+}
