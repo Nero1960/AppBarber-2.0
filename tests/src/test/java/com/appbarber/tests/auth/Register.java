@@ -1,5 +1,7 @@
 package com.appbarber.tests.auth;
 
+import java.util.UUID;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -44,11 +46,13 @@ public class Register extends TestBase {
 
     @Test
     public void registerSuccessFul() {
+        String uniqueId = UUID.randomUUID().toString().substring(0,8);
+        String dynamicEmail = "test_" + uniqueId + "@correo.com";
         RegisterData usuario = new RegisterData(
                 "newUser",
                 "newUser",
                 "75422115",
-                "newuser2@correo.com",
+                dynamicEmail,
                 "12345678",
                 "12345678");
 
