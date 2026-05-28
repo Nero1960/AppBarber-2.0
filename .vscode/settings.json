@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
+        "appbarber",
         "Decrementar",
         "lucide",
         "networkidle"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
