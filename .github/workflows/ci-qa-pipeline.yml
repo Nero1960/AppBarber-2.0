@@ -1,0 +1,40 @@
+name: Regresion E2E - AppBarber 2.0
+
+on:
+  push:
+    branches: [ main, develop, feat/testng ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ejecutar-pruebas-qa:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el repositorio en la nube
+      uses: actions/checkout@v4
+
+    - name: Configurar Java 17 (JDK Temurin)
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'
+
+    - name: Instalar dependencias del sistema para Playwright
+      run: |
+        cd tests
+        mvn compile
+        mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install-deps"
+
+    - name: Ejecutar Suite de TestNG (POM) contra Render
+      run: |
+        cd tests
+        mvn test -Durl.base="https://appbarber-2-0.onrender.com" -Dbrowser.headless=true
+
+    - name: Almacenar reporte HTML de resultados
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: reporte-ejecucion-testng
+        path: tests/target/surefire-reports/
