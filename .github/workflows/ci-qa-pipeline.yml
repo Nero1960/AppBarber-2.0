@@ -21,11 +21,13 @@ jobs:
         java-version: '17'
         cache: 'maven'
 
-    - name: Instalar dependencias del sistema para Playwright
+    - name: Compilar proyecto de pruebas
       run: |
         cd tests
         mvn compile
-        mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install-deps"
+    
+    - name: Instalar dependencias del sistema de Playwright (Oficial)
+      uses: microsoft/playwright-actions@v1
 
     - name: Ejecutar Suite de TestNG (POM) contra Render
       run: |
