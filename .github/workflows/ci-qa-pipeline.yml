@@ -26,8 +26,8 @@ jobs:
         cd tests
         mvn compile
     
-    - name: Instalar dependencias del sistema de Playwright (Oficial)
-      uses: microsoft/playwright-actions@v1
+    - name: Instalar dependencias del sistema de Playwright (Vía NPX)
+      run: npx playwright install-deps
 
     - name: Ejecutar Suite de TestNG (POM) contra Render
       run: |
