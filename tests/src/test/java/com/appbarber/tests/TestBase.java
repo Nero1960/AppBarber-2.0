@@ -19,11 +19,11 @@ public class TestBase {
     protected String urlBase;
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         Properties prop = new Properties();
 
         try {
-            //leer archivo de propiedades
+            // leer archivo de propiedades
             FileInputStream io = new FileInputStream("config.properties");
             prop.load(io);
         } catch (Exception e) {
@@ -31,7 +31,14 @@ public class TestBase {
         }
 
         urlBase = prop.getProperty("url.base", "https://appbarber-2-0.onrender.com");
-        boolean isHeadless = Boolean.parseBoolean(prop.getProperty("browser.headless", "false"));
+        boolean isGithubActions = System.getenv("CI") != null;
+        boolean isHeadless;
+
+        if (isGithubActions) {
+            isHeadless = true;
+        } else {
+            isHeadless = Boolean.parseBoolean(prop.getProperty("browser.headless", "false"));
+        }
 
         System.out.println("[SETUP BASE]: Levantando playwright en el entorno de pruebas: " + urlBase);
         playwright = Playwright.create();
@@ -39,12 +46,12 @@ public class TestBase {
         page = browser.newPage();
     }
 
-
     @AfterMethod
-    public void tearDown(){
-        if (browser != null) browser.close();
-        if (playwright != null) playwright.close();
+    public void tearDown() {
+        if (browser != null)
+            browser.close();
+        if (playwright != null)
+            playwright.close();
     }
 
-    
 }
