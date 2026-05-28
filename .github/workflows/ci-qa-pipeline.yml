@@ -2,7 +2,7 @@ name: Regresion E2E - AppBarber 2.0
 
 on:
   push:
-    branches: [ main, develop, feat/testng ]
+    branches: [ main, develop, feat/testNG ]
   pull_request:
     branches: [ main ]
 
