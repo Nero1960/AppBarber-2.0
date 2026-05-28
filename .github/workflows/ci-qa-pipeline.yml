@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, develop, feat/testNG ]
   pull_request:
-    branches: [ main ]
+    branches: [ main , develop]
 
 jobs:
   ejecutar-pruebas-qa:
