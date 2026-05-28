@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="TestSuite" time="53.172" tests="6" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="25"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="C:\Dev\AppBarber-2.0\tests\target\test-classes;C:\Dev\AppBarber-2.0\tests\target\classes;C:\Users\acer-nitrov15\.m2\repository\org\testng\testng\7.10.2\testng-7.10.2.jar;C:\Users\acer-nitrov15\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\acer-nitrov15\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\acer-nitrov15\.m2\repository\org\webjars\jquery\3.7.1\jquery-3.7.1.jar;C:\Users\acer-nitrov15\.m2\repository\com\microsoft\playwright\playwright\1.44.0\playwright-1.44.0.jar;C:\Users\acer-nitrov15\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar;C:\Users\acer-nitrov15\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\acer-nitrov15\.m2\repository\com\microsoft\playwright\driver\1.44.0\driver-1.44.0.jar;C:\Users\acer-nitrov15\.m2\repository\com\microsoft\playwright\driver-bundle\1.44.0\driver-bundle-1.44.0.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="America/Managua"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="25"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-25.0.3\bin"/>
+    <property name="sun.java.command" value="C:\Users\acer-nitrov15\AppData\Local\Temp\surefire10662800415955576293\surefirebooter-20260528100652579_3.jar C:\Users\acer-nitrov15\AppData\Local\Temp\surefire10662800415955576293 2026-05-28T10-06-52_379-jvmRun1 surefire-20260528100652579_1tmp surefire_0-20260528100652579_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Dev\AppBarber-2.0\tests\target\test-classes;C:\Dev\AppBarber-2.0\tests\target\classes;C:\Users\acer-nitrov15\.m2\repository\org\testng\testng\7.10.2\testng-7.10.2.jar;C:\Users\acer-nitrov15\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\acer-nitrov15\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\acer-nitrov15\.m2\repository\org\webjars\jquery\3.7.1\jquery-3.7.1.jar;C:\Users\acer-nitrov15\.m2\repository\com\microsoft\playwright\playwright\1.44.0\playwright-1.44.0.jar;C:\Users\acer-nitrov15\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar;C:\Users\acer-nitrov15\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\acer-nitrov15\.m2\repository\com\microsoft\playwright\driver\1.44.0\driver-1.44.0.jar;C:\Users\acer-nitrov15\.m2\repository\com\microsoft\playwright\driver-bundle\1.44.0\driver-bundle-1.44.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\acer-nitrov15"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-04-21"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-25.0.3"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Dev\AppBarber-2.0\tests"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\acer-nitrov15\AppData\Local\Temp\surefire10662800415955576293\surefirebooter-20260528100652579_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="25.0.3+9-LTS-195"/>
+    <property name="user.name" value="acer-nitrov15"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\acer-nitrov15\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\ACER-N~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="25.0.3"/>
+    <property name="user.dir" value="C:\Dev\AppBarber-2.0\tests"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-25.0.3\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Users\acer-nitrov15\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\acer-nitrov15\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python314\Scripts;C:\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\apache-maven-3.9.16\bin;C:\Users\acer-nitrov15\AppData\Local\Programs\Python\Python312\Scripts;C:\Users\acer-nitrov15\AppData\Local\Programs\Python\Python312;C:\Users\acer-nitrov15\AppData\Local\Microsoft\WindowsApps;C:\Users\acer-nitrov15\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\acer-nitrov15\AppData\Local\Programs\Ollama;C:\Users\acer-nitrov15\AppData\Roaming\npm;C:\Users\acer-nitrov15\.vscode\extensions\vscjava.vscode-java-debug-0.59.0\bundled\scripts\noConfigScripts;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="25.0.3+9-LTS-195"/>
+    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="69.0"/>
+  </properties>
+  <testcase name="loginToAppSuccessful" classname="com.appbarber.tests.auth.Login" time="3.449">
+    <system-out><![CDATA[[SETUP BASE]: Levantando playwright en el entorno de pruebas: https://appbarber-2-0.onrender.com
+]]></system-out>
+    <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+]]></system-err>
+  </testcase>
+  <testcase name="loginToDashboardSuccessful" classname="com.appbarber.tests.auth.Login" time="2.872">
+    <system-out><![CDATA[[SETUP BASE]: Levantando playwright en el entorno de pruebas: https://appbarber-2-0.onrender.com
+]]></system-out>
+  </testcase>
+  <testcase name="loginWithPasswordIncorrect" classname="com.appbarber.tests.auth.Login" time="2.709">
+    <system-out><![CDATA[[SETUP BASE]: Levantando playwright en el entorno de pruebas: https://appbarber-2-0.onrender.com
+]]></system-out>
+  </testcase>
+  <testcase name="loginWithUserNotAuth" classname="com.appbarber.tests.auth.Login" time="3.713">
+    <system-out><![CDATA[[SETUP BASE]: Levantando playwright en el entorno de pruebas: https://appbarber-2-0.onrender.com
+]]></system-out>
+  </testcase>
+  <testcase name="registerFailedWithEmailRegistered[com.appbarber.models.RegisterData@5038d0b5, Usuario ya registrado](1)" classname="com.appbarber.tests.auth.Register" time="2.314">
+    <system-out><![CDATA[[SETUP BASE]: Levantando playwright en el entorno de pruebas: https://appbarber-2-0.onrender.com
+]]></system-out>
+  </testcase>
+  <testcase name="registerSuccessFul" classname="com.appbarber.tests.auth.Register" time="3.859">
+    <system-out><![CDATA[[SETUP BASE]: Levantando playwright en el entorno de pruebas: https://appbarber-2-0.onrender.com
+]]></system-out>
+  </testcase>
+</testsuite>
