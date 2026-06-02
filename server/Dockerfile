@@ -7,16 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalamos todas las dependencias para poder compilar
-RUN npm ci
+RUN npm install
 
 # Copiamos todo el resto de tu código fuente al contenedor
 COPY . .
 
 # Compilamos el proyecto (genera la carpeta /dist ejecutando tsc --build)
 RUN npm run build
-
-# Limpiamos las herramientas de desarrollo para dejar solo las dependencias de producción
-RUN npm prune --production
 
 # Exponemos el puerto de tu API
 EXPOSE 4000
