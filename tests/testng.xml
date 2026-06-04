@@ -6,6 +6,7 @@
     <test name="AUTH_MODULE">
         <packages>
             <package name="com.appbarber.tests.auth" />
+            <package name="com.appbarber.tests.app" />
         </packages>
     </test>
 

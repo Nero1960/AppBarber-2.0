@@ -5,8 +5,8 @@ import java.util.Properties;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
@@ -15,8 +15,10 @@ public class TestBase {
 
     protected Playwright playwright;
     protected Browser browser;
+    protected BrowserContext context;
     protected Page page;
     protected String urlBase;
+
 
     @BeforeMethod
     public void setUp() {
@@ -30,7 +32,7 @@ public class TestBase {
             System.out.println("[ERROR]: No se pudo cargar el archivo de propiedades" + e);
         }
 
-        urlBase = prop.getProperty("url.base", "https://appbarber-2-0.onrender.com");
+        urlBase = prop.getProperty("url.base", "https://appbarber-staging.onrender.com/");
         boolean isGithubActions = System.getenv("CI") != null;
         boolean isHeadless;
 
@@ -43,6 +45,7 @@ public class TestBase {
         System.out.println("[SETUP BASE]: Levantando playwright en el entorno de pruebas: " + urlBase);
         playwright = Playwright.create();
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
+        context = browser.newContext();
         page = browser.newPage();
     }
 
