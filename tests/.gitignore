@@ -1,8 +1,31 @@
+# Compiled files
+target/
+*.class
 
-# Playwright
-node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+# Logs
+*.log
+test-output/  # Si TestNG genera reportes aquí
+
+# Playwright (si guarda artifacts localmente)
+test-results/
+playwright-report/
+test-artifacts/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.lock
+
+# Maven (opcional, si no quieres subir el wrapper)
+.mvn/
+mvnw
+mvnw.cmd
