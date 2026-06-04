@@ -1,6 +1,0 @@
-com\appbarber\pages\auth\admin\UserAdminPage.class
-com\appbarber\models\RegisterData.class
-com\appbarber\pages\auth\LoginPage.class
-com\appbarber\pages\auth\app\UserAppPage.class
-com\appbarber\pages\auth\RegisterPage.class
-com\appbarber\pages\auth\AuthBasePage.class
