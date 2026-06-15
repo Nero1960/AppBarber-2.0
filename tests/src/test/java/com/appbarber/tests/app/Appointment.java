@@ -1,11 +1,14 @@
 package com.appbarber.tests.app;
 
+import java.util.Random;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.appbarber.pages.app.appointments.CreateAppointmentPage;
 import com.appbarber.tests.AppBase;
+import com.appbarber.helpers.DateHelper;
 
 public class Appointment extends AppBase {
     private CreateAppointmentPage createAppointmentPage;
@@ -15,14 +18,16 @@ public class Appointment extends AppBase {
         createAppointmentPage = new CreateAppointmentPage(page);
     }
 
-    @Test(groups = "app")
+    @Test (priority = 1)
     public void createAppointment() {
+        int daysOnFuture = new Random().nextInt(5) + 2;
+        String date = DateHelper.getFutureDayLabel(daysOnFuture);
         createAppointmentPage.navigateToCreateAppointment(urlBase);
-        createAppointmentPage.selectServices("Corte Fade");
+        createAppointmentPage.selectServices(DateHelper.getRandomService());
         createAppointmentPage.nextStep();
-        createAppointmentPage.selectBarber("John");
-        createAppointmentPage.selectDate("15 Jun 2026");
-        createAppointmentPage.selectHour("10:00 AM");
+        createAppointmentPage.selectBarber(DateHelper.getRandomBarber());
+        createAppointmentPage.selectDate(date);
+        createAppointmentPage.selectHour(DateHelper.getRandomWorkHour());
         createAppointmentPage.nextStep();
         createAppointmentPage.createAppointment();
         Assert.assertTrue(createAppointmentPage.isAppointmentCreated(), "La cita no fue creada correctamente");

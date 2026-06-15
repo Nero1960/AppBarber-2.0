@@ -1,10 +1,11 @@
 package com.appbarber.tests;
 
 import java.io.FileInputStream;
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeMethod;
 
 import com.microsoft.playwright.Browser;
@@ -15,7 +16,8 @@ import com.microsoft.playwright.Playwright;
 
 public class AppBase extends TestBase {
 
-    @BeforeClass(alwaysRun = true)
+    
+    @BeforeSuite(alwaysRun = true)
     public void globalLogin() {
         // 1. Cargar la URL si no está inicializada
         if (urlBase == null) {
@@ -29,45 +31,44 @@ public class AppBase extends TestBase {
             }
         }
 
-        System.out.println("[AUTH GLOBAL]: Iniciando sesión aislada para crear state.json...");
+        // 2. CONDICIONAL INTELIGENTE: Verificamos si ya existe la sesión guardada
+        File stateFile = new File("state.json");
+        
+        if (!stateFile.exists()) {
+            System.out.println("[AUTH GLOBAL]: No se encontró sesión activa. Generando state.json en Render...");
 
-        // 2. Usamos variables LOCALES estrictas para no romper el ciclo de vida del test posterior
-        try (Playwright pwLocal = Playwright.create()) {
-            Browser bLocal = pwLocal.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-            BrowserContext ctxLocal = bLocal.newContext();
-            Page pLocal = ctxLocal.newPage();
+            try (Playwright pwLocal = Playwright.create()) {
+                Browser bLocal = pwLocal.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+                BrowserContext ctxLocal = bLocal.newContext();
+                Page pLocal = ctxLocal.newPage();
 
-            // Navegación e inicio de sesión con tus credenciales actuales
-            pLocal.navigate(urlBase + "/");
-            pLocal.fill("#email", "andy.mena@correo.com");
-            pLocal.fill("#password", "holamundo");
-            pLocal.click("input[type='submit']");
-            
-            // Esperamos a la redirección del Dashboard
-            pLocal.waitForURL("**/app");
+                pLocal.navigate(urlBase + "/");
+                pLocal.fill("#email", "andy.mena@correo.com");
+                pLocal.fill("#password", "holamundo");
+                pLocal.click("input[type='submit']");
+                
+                pLocal.waitForURL("**/app");
 
-            // Guardamos las cookies de la sesión de manera limpia en el disco
-            ctxLocal.storageState(new BrowserContext.StorageStateOptions().setPath(Paths.get("state.json")));
-            System.out.println("[AUTH GLOBAL]: Archivo state.json generado con éxito.");
-            
-            bLocal.close();
-        } catch (Exception e) {
-            System.out.println("[ERROR AUTH GLOBAL]: Falló el inicio de sesión previo: " + e.getMessage());
+                ctxLocal.storageState(new BrowserContext.StorageStateOptions().setPath(Paths.get("state.json")));
+                System.out.println("[AUTH GLOBAL]: Archivo state.json generado con éxito.");
+                
+                bLocal.close();
+            } catch (Exception e) {
+                System.out.println("[ERROR AUTH GLOBAL]: Falló el inicio de sesión previo: " + e.getMessage());
+            }
+        } else {
+            // Si el archivo ya existe (porque estás tirando comandos seguidos en tu máquina), se salta todo el bloque
+            System.out.println("[AUTH GLOBAL]: Sesión existente detectada en el disco duro. Saltando paso de Login.");
         }
     }
 
-    // Sobrescribimos el método setUp para cargar las cookies antes de cada prueba
     @Override
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        // 1. Llama al setUp del padre (TestBase) para inicializar de forma limpia 'playwright' y 'browser'
         super.setUp();
-        
-        // 2. Cerramos la página y el contexto vacío por defecto que te creó el padre
         if (page != null) page.close();
         if (context != null) context.close();
         
-        // 3. Creamos un contexto NUEVO inyectándole el estado que guardamos en el JSON
         System.out.println("[SETUP APP]: Inyectando sesión desde state.json al navegador del test...");
         context = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(Paths.get("state.json")));
         page = context.newPage();

@@ -32,7 +32,7 @@ jobs:
     - name: Ejecutar Suite de TestNG (POM) contra Render
       run: |
         cd tests
-        mvn test -Durl.base="https://appbarber-2-0.onrender.com" -Dbrowser.headless=true
+        mvn test -Durl.base="https://appbarber-staging.onrender.com/" -Dbrowser.headless=true
 
     - name: Almacenar reporte HTML de resultados
       if: always()

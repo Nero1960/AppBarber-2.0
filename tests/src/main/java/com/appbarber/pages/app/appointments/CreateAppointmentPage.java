@@ -22,8 +22,11 @@ public class CreateAppointmentPage extends AppointmentBasePage {
     }
 
     public void navigateToCreateAppointment(String urlBase) {
-        navigateTo(urlBase, path);
+        navigateTo(urlBase, "");
         page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForTimeout(1000);
+        navigateTo(urlBase, path);
+
     }
 
     /**
@@ -32,8 +35,7 @@ public class CreateAppointmentPage extends AppointmentBasePage {
      */
     public void selectServices(String ServiceName) {
         System.out.println("[POM]: Seleccionando el servicio -> " + ServiceName);
-        serviceCards.filter(new Locator.FilterOptions().setHasText(ServiceName));
-        serviceCards.click();
+        serviceCards.filter(new Locator.FilterOptions().setHasText(ServiceName)).click();
     }
 
     /**
@@ -73,10 +75,7 @@ public class CreateAppointmentPage extends AppointmentBasePage {
 
         // 1. Apuntamos a los divs interactivos de la hora (clase cursor-pointer)
         // 2. Filtramos exactamente por el texto de la hora que nos interesa
-        timeButton.filter(new Locator.FilterOptions().setHasText(hourText));
-
-        // 3. Hacemos clic
-        timeButton.click();
+        timeButton.filter(new Locator.FilterOptions().setHasText(hourText)).click();
     }
 
     public void createAppointment() {
