@@ -60,80 +60,78 @@ class BarberRepository implements IBarberRepository {
         await barber.destroy();
     }
 
-    async barberData(): Promise<BarberData[]> {
-        // Obtener los barberos y la cantidad de citas completadas
-        // Se utiliza el modelo Appointment para contar las citas completadas por cada barbero
-        const barbers = await Barber.findAll({
-            attributes: [
-                'barberId',
-                'name',
-                [
-                    fn('COUNT', col('Appointment.appointmentId')), 'appointments'
-                ]
-            ],
-            include: [
-                {
-                    model: Appointment,
-                    attributes: [],
-                    where: {
-                        status: 'completed'
-                    },
-                    required: false
-                }
-            ],
-            group: ['Barber.barberId'],
-            order: [[literal('appointments'), 'DESC']]
-        });
-
-        // Mapear los resultados para obtener un array de objetos con la información deseada
-        // Se utiliza el método getDataValue para obtener el valor de los atributos de la instancia del modelo
-        const data: BarberData[] = barbers.map((barbero) => {
-            return {
-                barberId: barbero.barberId,
-                name: barbero.name,
-                appointments: barbero.getDataValue('appointments')
+  async  barberData(): Promise<BarberData[]> {
+    const barbers = await Barber.findAll({
+        attributes: [
+            'barberId',
+            'name',
+            // 1. Corregido: Usamos 'appointment' en singular igual que en tu modelo Barber
+            [fn('COUNT', col('appointment.appointmentId')), 'appointmentsCount']
+        ],
+        include: [
+            {
+                model: Appointment,
+                as: 'appointment', // 2. Corregido: Sincronizado en singular
+                attributes: [],
+                where: { status: 'completed' },
+                required: false // LEFT JOIN para mantener barberos con 0 citas
             }
-        })
+        ],
+        group: ['Barber.barberId', 'Barber.name'],
+        order: [[literal('appointmentsCount'), 'DESC']],
+        raw: true
+    });
 
-        return data;
-    }
+    // Mapeo plano seguro
+    return barbers.map((barbero: any) => ({
+        barberId: barbero.barberId,
+        name: barbero.name,
+        appointments: parseInt(barbero.appointmentsCount, 10) || 0
+    }));
+}
 
-    async barberIncome(): Promise<BarberIncome[]> {
-        const barbers = await AppointmentService.findAll({
-            attributes: [
-                [col('Appointment.barberId'), 'barberId'],
-                [col('Appointment.barbero.name'), 'name'],
-                [fn('SUM', col('current_price')), 'value'],
-            ],
-            include: [
-                {
-                    model: Appointment,
-                    attributes: [],
-                    where: {
-                        status: 'completed'
+  async  barberIncome(): Promise < BarberIncome[] > {
+    const barbers = await AppointmentService.findAll({
+        attributes: [
+            [col('appointment.barberId'), 'barberId'],
+            [fn('SUM', col('current_price')), 'totalValue'],
+        ],
+        include: [
+            {
+                model: Appointment,
+                as: 'appointment', // Aseguramos el alias de la relación
+                attributes: [],
+                where: { status: 'completed' },
+                include: [
+                    {
+                        model: Barber,
+                        as: 'barbero', // El alias exacto que pusiste en Appointment: declare barbero : Barber;
+                        attributes: ['name'], // Le permitimos traer el name dentro de su objeto anidado
                     },
-                    include: [
-                        {
-                            model: Barber,
-                            attributes: [],
-                        },
-                    ],
-                },
-            ],
-            group: ['Appointment.barberId'],
-            order: [[literal('value'), 'DESC']],
-        });
+                ],
+            },
+        ],
+        // Agrupamos respetando la estructura de herencia de Sequelize
+        group: [
+            'appointment.barberId',
+            'appointment->barbero.barberId',
+            'appointment->barbero.name'
+        ],
+        order: [[literal('totalValue'), 'DESC']],
+        raw: true,
+        nest: true // Hace que los includes se vuelvan sub-objetos limpios
+    });
 
-        const data: BarberIncome[] = barbers.map((barbero) => {
-            return {
-                barberId: barbero.getDataValue('barberId'),
-                name: barbero.getDataValue('name'),
-                value: barbero.getDataValue('value')
-            }
-        })
-
-        return data;
-    }
+    // Corregimos el mapeo para leer la estructura anidada real que genera nest: true
+    return barbers.map((barbero: any) => {
+        return {
+            barberId: barbero.barberId,
+            // Acceso seguro al objeto anidado: barbero -> appointment -> barbero -> name
+            name: barbero.appointment?.barbero?.name || 'Sin Nombre',
+            value: parseFloat(barbero.totalValue) || 0
+        };
+    });
+}
 
 }
 

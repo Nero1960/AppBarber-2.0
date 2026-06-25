@@ -17,9 +17,10 @@ class AppointmentCancellation extends Model {
 
     declare appointmentCancellationId: number;
 
+    @Default("")
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: true
     })
 
     declare cancellation_reason : string;

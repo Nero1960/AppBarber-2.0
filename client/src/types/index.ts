@@ -279,12 +279,13 @@ export const monthlyRevenueAppointmentSchemaArray = z.array(monthlyRevenueAppoin
 export type MonthlyRevenueAppointment = z.infer<typeof monthlyRevenueAppointmentSchemaArray>;
 
 //Servicios mas solicitados
+// ServiceApi.ts - schema sin serviceId
 export const topServiceSchema = z.object({
-    count: z.number(),
-    name: z.string()
-})
+  count: z.number(),
+  name: z.string(),
+});
 export const topServiceSchemaArray = z.array(topServiceSchema);
-export type TopServices = z.infer<typeof topServiceSchemaArray>;
+export type TopServiceData = z.infer<typeof topServiceSchema>; // tipo del elemento, no del array
 
 
 //Reportes en la sección de administrador
@@ -435,3 +436,5 @@ export const appointmentDataSchema = z.object({
 export const appointmentDataSchemaArray = z.array(appointmentDataSchema);
 
 export type AppointmentData = z.infer<typeof appointmentDataSchemaArray>;
+
+// Opción limpia: inferir el tipo desde Zod

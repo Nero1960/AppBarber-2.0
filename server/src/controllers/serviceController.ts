@@ -3,7 +3,7 @@ import { IServiceService } from "../interfaces/services/IServiceService";
 
 class ServiceController {
 
-    constructor(private serviceService: IServiceService){}
+    constructor(private serviceService: IServiceService) { }
 
     public getAllServices = async (request: Request, response: Response, next: NextFunction) => {
         try {
@@ -25,7 +25,7 @@ class ServiceController {
         }
     }
 
-    public newService = async (request: Request, response: Response, next : NextFunction) => {
+    public newService = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const newService = await this.serviceService.createService(request.body);
             response.status(201).send(newService)
@@ -35,7 +35,7 @@ class ServiceController {
 
     }
 
-    public updateService = async (request: Request, response: Response, next : NextFunction) => {
+    public updateService = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const serviceId = +request.params.serviceId;
             const serviceUpdated = await this.serviceService.updateService(serviceId, request.body);
@@ -59,12 +59,17 @@ class ServiceController {
     public getTopServices = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const { period } = request.query;
-            const topServices =  await this.serviceService.getTopServices(period as string);
+            console.log(period);
+            const topServices = await this.serviceService.getTopServices(period as string);
+            console.log(topServices);
             response.status(200).json(topServices)
         } catch (error) {
+            console.error("================ ERROR EN GET_TOP_SERVICES ================");
+            console.error(error);
+            console.error("===========================================================");
             next(error)
         }
-    };   
+    };
 }
 
 export default ServiceController;
