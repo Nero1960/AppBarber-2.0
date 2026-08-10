@@ -30,8 +30,8 @@ pipeline {
         stage('Clean Old Containers') {
             steps {
                 script {
-                    // Limpia contenedores huérfanos o nombres repetidos antes de arrancar
-                    sh 'docker compose down --remove-orphans || true'
+                    // Limpia únicamente los recursos huérfanos del espacio de CI de este proyecto
+                    sh 'docker compose -p appbarber-ci down --remove-orphans || true'
                 }
             }
         }
@@ -39,10 +39,11 @@ pipeline {
         stage('Build & Run Tests (Docker Compose)') {
             steps {
                 script {
-                    sh 'docker compose up -d db server client'
+                    // Levantamos los servicios usando un namespace de proyecto propio (-p appbarber-ci)
+                    sh 'docker compose -p appbarber-ci up -d db server client'
                     
-                    // Aquí es donde lanzas tu contenedor de pruebas con Playwright/Maven
-                    sh 'docker compose run --rm tests'
+                    // Ejecutamos las pruebas automatizadas (Playwright/Maven) en el mismo entorno aislado
+                    sh 'docker compose -p appbarber-ci run --rm tests'
                 }
             }
         }
@@ -50,7 +51,8 @@ pipeline {
     
     post {
         always {
-            sh 'docker compose down -v'
+            // Destruye y limpia únicamente los contenedores y volúmenes temporales de Jenkins
+            sh 'docker compose -p appbarber-ci down -v --remove-orphans || true'
         }
         success {
             echo '¡Las pruebas automatizadas pasaron con éxito!'
