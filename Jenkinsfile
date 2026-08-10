@@ -15,6 +15,22 @@ pipeline {
             }
         }
 
+        stage('Prepare Environment Files') {
+            steps {
+                script {
+                    // Mapeamos ambos archivos secretos en una sola llamada a withCredentials
+                    withCredentials([
+                        file(credentialsId: 'server-env-file', variable: 'SERVER_ENV'),
+                        file(credentialsId: 'client-env-file', variable: 'CLIENT_ENV')
+                    ]) {
+                // Copiamos cada archivo temporal de Jenkins a su respectiva carpeta en el monorepo
+                sh 'cp $SERVER_ENV server/.env'
+                sh 'cp $CLIENT_ENV client/.env'
+            }
+        }
+    }
+}
+
         stage('Build & Run Tests (Docker Compose)') {
             steps {
                 script {
