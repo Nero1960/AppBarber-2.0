@@ -1,64 +1,51 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK25'
-        maven 'Maven3'
+    environment {
+        // Proyecto aislado de CI: evita colisionar con el stack local
+        // (nombres de contenedores, red y volúmenes propios de appbarber_ci).
+        COMPOSE_PROJECT = 'appbarber_ci'
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Limpieza previa') {
             steps {
-                checkout scm
+                // Idempotente: elimina contenedores/red residuales de builds anteriores
+                sh 'docker compose -p $COMPOSE_PROJECT down --remove-orphans || true'
             }
         }
 
-        stage('Prepare Environment Files') {
+        stage('Preparar entorno') {
             steps {
                 script {
-                    withCredentials([
-                        file(credentialsId: 'server/.env', variable: 'SERVER_ENV'),
-                        file(credentialsId: 'client/.env', variable: 'CLIENT_ENV')
-                    ]) {
-                        sh 'cp $SERVER_ENV server/.env'
-                        sh 'cp $CLIENT_ENV client/.env'
+                    // server/.env es requerido por env_file de compose y no está versionado.
+                    // Se genera desde las credenciales de Jenkins si no existe en el workspace.
+                    if (!fileExists('server/.env')) {
+                        withCredentials([string(credentialsId: 'APPBARBER_SERVER_ENV', variable: 'SERVER_ENV_CONTENT')]) {
+                            writeFile file: 'server/.env', text: SERVER_ENV_CONTENT
+                        }
                     }
                 }
             }
         }
 
-        stage('Clean Old Containers') {
+        stage('Levantar stack') {
             steps {
-                script {
-                    // Limpia únicamente los recursos huérfanos del espacio de CI de este proyecto
-                    sh 'docker compose -p appbarber-ci down --remove-orphans || true'
-                }
+                sh 'docker compose -p $COMPOSE_PROJECT up -d --build db server client'
             }
         }
 
-        stage('Build & Run Tests (Docker Compose)') {
+        stage('Ejecutar tests') {
             steps {
-                script {
-                    // Levantamos los servicios usando un namespace de proyecto propio (-p appbarber-ci)
-                    sh 'docker compose -p appbarber-ci up -d db server client'
-                    
-                    // Ejecutamos las pruebas automatizadas (Playwright/Maven) en el mismo entorno aislado
-                    sh 'docker compose -p appbarber-ci run --rm tests'
-                }
+                sh 'docker compose -p $COMPOSE_PROJECT run --rm tests'
             }
         }
     }
-    
+
     post {
         always {
-            // Destruye y limpia únicamente los contenedores y volúmenes temporales de Jenkins
-            sh 'docker compose -p appbarber-ci down -v --remove-orphans || true'
-        }
-        success {
-            echo '¡Las pruebas automatizadas pasaron con éxito!'
-        }
-        failure {
-            echo '¡Las pruebas fallaron. Revisa los logs!'
+            // Limpieza sin -v: conserva appbarber_ci_db_data con las precondiciones (usuarios, tokens)
+            sh 'docker compose -p $COMPOSE_PROJECT down --remove-orphans || true'
         }
     }
 }

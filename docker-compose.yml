@@ -4,7 +4,6 @@ services:
   db:
     image: mysql:8.0
     restart: always
-    container_name: barber_db
     env_file:
       - ./server/.env
     ports:
@@ -21,7 +20,6 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile.dev
-    container_name: server
     ports:
       - "4000:4000"
     depends_on:
@@ -41,7 +39,6 @@ services:
 
   client:
     build: ./client
-    container_name: client
     ports:
       - "5173:5173"
     depends_on:
@@ -56,7 +53,6 @@ services:
     build:
       context: ./tests
       dockerfile: Dockerfile
-    container_name: barber_tests
     # No se inicia con "docker compose up"; se ejecuta bajo demanda:
     #   docker compose run --rm tests
     profiles: ["tests"]
