@@ -20,8 +20,8 @@ pipeline {
                 script {
                     // Mapeamos ambos archivos secretos en una sola llamada a withCredentials
                     withCredentials([
-                        file(credentialsId: 'server-env-file', variable: 'SERVER_ENV'),
-                        file(credentialsId: 'client-env-file', variable: 'CLIENT_ENV')
+                        file(credentialsId: 'server/.env', variable: 'SERVER_ENV'),
+                        file(credentialsId: 'client/.env', variable: 'CLIENT_ENV')
                     ]) {
                 // Copiamos cada archivo temporal de Jenkins a su respectiva carpeta en el monorepo
                 sh 'cp $SERVER_ENV server/.env'
