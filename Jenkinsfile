@@ -17,8 +17,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([
-                        file(credentialsId: 'server-env-file', variable: 'SERVER_ENV'),
-                        file(credentialsId: 'client-env-file', variable: 'CLIENT_ENV')
+                        file(credentialsId: 'server/.env', variable: 'SERVER_ENV'),
+                        file(credentialsId: 'client/.env', variable: 'CLIENT_ENV')
                     ]) {
                         sh 'cp $SERVER_ENV server/.env'
                         sh 'cp $CLIENT_ENV client/.env'
