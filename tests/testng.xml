@@ -3,17 +3,28 @@
 
 <suite name="Suite Appbarber">
 
+    <!-- Listeners: Allure + Screenshots en fallos UI -->
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg" />
+        <listener class-name="com.appbarber.listeners.AllureScreenshotListener" />
+    </listeners>
+
+    <!-- Módulo de Pruebas de API -->
+    <test name="API_AUTH_MODULE">
+        <packages>
+            <package name="com.appbarber.tests.api.auth" />
+        </packages>
+    </test>
+
     <test name="AUTH_MODULE">
         <packages>
-            <package name="com.appbarber.tests.auth" />
+            <package name="com.appbarber.tests.ui.auth" />
         </packages>
     </test>
 
     <test name="APP_MODULE">
         <packages>
-            <package name="com.appbarber.tests.app" />
+            <package name="com.appbarber.tests.ui.app" />
         </packages>
     </test>
-
-
 </suite>

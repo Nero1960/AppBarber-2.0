@@ -1,18 +1,11 @@
 package com.appbarber.pages.auth.app;
 
+import com.appbarber.pages.app.BaseAppPage;
 import com.microsoft.playwright.Page;
 
-public class UserAppPage {
-
-    protected Page page;
+public class UserAppPage extends BaseAppPage {
 
     public UserAppPage(Page page) {
-        this.page = page;
+        super(page, "/app");
     }
-
-    public boolean isLoaded(String urlBase) {
-        page.waitForURL(urlBase + "/app");
-        return page.url().equals(urlBase + "/app");
-    }
-
 }
