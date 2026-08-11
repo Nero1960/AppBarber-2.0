@@ -17,14 +17,19 @@ pipeline {
 
         stage('Preparar entorno') {
             steps {
-                script {
-                    // server/.env es requerido por env_file de compose y no está versionado.
-                    // Se sobrescribe SIEMPRE desde la credencial para que cada build sea
-                    // determinista (evita que un .env viejo del workspace quede obsoleto).
-                    withCredentials([string(credentialsId: 'APPBARBER_SERVER_ENV', variable: 'SERVER_ENV_CONTENT')]) {
-                        writeFile file: 'server/.env', text: SERVER_ENV_CONTENT
-                    }
+                // server/.env y client/.env se generan SIEMPRE desde las credenciales
+                // Secret file homónimas; se normaliza CRLF -> LF por si el archivo
+                // original se editó en Windows.
+                withCredentials([file(credentialsId: 'server/.env', variable: 'SERVER_ENV_FILE')]) {
+                    sh 'cp "$SERVER_ENV_FILE" server/.env'
+                    sh 'sed -i "s/\r$//" server/.env'
                 }
+                withCredentials([file(credentialsId: 'client/.env', variable: 'CLIENT_ENV_FILE')]) {
+                    sh 'cp "$CLIENT_ENV_FILE" client/.env'
+                    sh 'sed -i "s/\r$//" client/.env'
+                }
+                // Diagnóstico: claves no sensibles presentes en server/.env
+                sh 'grep -E "^(DATABASE_HOST|DATABASE_PORT|DATABASE_NAME|PORT|FRONTEND_URL|MYSQL_DATABASE|SMTP_HOST|SMTP_PORT)=" server/.env || true'
             }
         }
 
