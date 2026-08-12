@@ -37,20 +37,19 @@ pipeline {
         }
 
         stage('Build & Run Tests (Docker Compose)') {
-    steps {
-        script {
-            try {
-                sh 'docker compose --profile tests up -d db server client'
-                sh 'docker compose --profile tests run --rm tests'
-            } catch (Exception e) {
-                // Si algo falla, imprime los logs del servidor para ver el error exacto
-                sh 'docker compose --profile tests logs server'
-                throw e
+            steps {
+                script {
+                    try {
+                        sh 'docker compose --profile tests up -d db server client'
+                        sh 'docker compose --profile tests run --rm tests'
+                    } catch (Exception e) {
+                        // Si algo falla, imprime los logs del servidor para ver el error exacto
+                        sh 'docker compose --profile tests logs server'
+                        throw e
+                    }
+                }       
             }
         }
-    }
-}
-}
     }
     
     post {
