@@ -39,13 +39,14 @@ pipeline {
         stage('Build & Run Tests (Docker Compose)') {
             steps {
                 script {
-                    sh 'docker compose up -d db server client'
-                    
-                    // Aquí es donde lanzas tu contenedor de pruebas con Playwright/Maven
-                    sh 'docker compose run --rm tests'
-                }
-            }
+                     // Asegura que cargue el perfil de pruebas igual que en tu terminal
+                    sh 'docker compose --profile tests up -d db server client'
+            
+                    // Lanza el contenedor de pruebas de Playwright/Maven
+                    sh 'docker compose --profile tests run --rm tests'
         }
+    }
+}
     }
     
     post {
