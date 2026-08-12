@@ -39,6 +39,7 @@ pipeline {
         stage('Build & Run Tests (Docker Compose)') {
             steps {
                 script {
+                    sh 'ls -la server/.env'
                      // Asegura que cargue el perfil de pruebas igual que en tu terminal
                     sh 'docker compose --profile tests up -d db server client'
             
