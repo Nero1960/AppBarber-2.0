@@ -1,7 +1,7 @@
 package com.appbarber.pages.auth;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;;
+import com.microsoft.playwright.Page;
 
 public class AuthBasePage {
 
@@ -20,8 +20,8 @@ public class AuthBasePage {
     }
 
     public void navigateTo(String urlBase, String path) {
-        page.navigate(urlBase + "/" + path);
-        
+        String cleanPath = path.startsWith("/") ? path.substring(1) : path;
+        page.navigate(urlBase + "/" + cleanPath);
     }
 
     protected void fillEmailInput(String email) {

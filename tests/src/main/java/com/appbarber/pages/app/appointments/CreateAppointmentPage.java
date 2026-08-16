@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.SelectOption;
+import io.qameta.allure.Allure;
 
 public class CreateAppointmentPage extends AppointmentBasePage {
 
@@ -33,9 +34,9 @@ public class CreateAppointmentPage extends AppointmentBasePage {
      * @param serviceName El nombre exacto del servicio (ej: "Corte Fade", "Corte
      *                    Barba")
      */
-    public void selectServices(String ServiceName) {
-        System.out.println("[POM]: Seleccionando el servicio -> " + ServiceName);
-        serviceCards.filter(new Locator.FilterOptions().setHasText(ServiceName)).click();
+    public void selectServices(String serviceName) {
+        Allure.step("Seleccionando el servicio -> " + serviceName, () ->
+                serviceCards.filter(new Locator.FilterOptions().setHasText(serviceName)).click());
     }
 
     /**
@@ -43,8 +44,8 @@ public class CreateAppointmentPage extends AppointmentBasePage {
      *                   García")
      */
     public void selectBarber(String barberName) {
-        System.out.println("[POM]: Seleccionando el barbero -> " + barberName);
-        dropDownSelectBarber.selectOption(new SelectOption().setLabel(barberName));
+        Allure.step("Seleccionando el barbero -> " + barberName, () ->
+                dropDownSelectBarber.selectOption(new SelectOption().setLabel(barberName)));
     }
 
     /**
@@ -54,14 +55,12 @@ public class CreateAppointmentPage extends AppointmentBasePage {
      * @param labelDate Ejemplo exacto: "02 Jun 2026", "15 Jun 2026"
      */
     public void selectDate(String labelDate) {
-        System.out.println("[POM]: Seleccionando la fecha de la cita -> " + labelDate);
-        // 1. Buscamos el elemento con rol 'gridcell' cuyo aria-label coincida
-        // exactamente
-        Locator cellDate = page.getByRole(
-                com.microsoft.playwright.options.AriaRole.GRIDCELL,
-                new Page.GetByRoleOptions().setName(labelDate));
-        // 2. Ejecutamos el clic directo
-        cellDate.click();
+        Allure.step("Seleccionando la fecha de la cita -> " + labelDate, () -> {
+            Locator cellDate = page.getByRole(
+                    com.microsoft.playwright.options.AriaRole.GRIDCELL,
+                    new Page.GetByRoleOptions().setName(labelDate));
+            cellDate.click();
+        });
     }
 
     /**
@@ -71,11 +70,8 @@ public class CreateAppointmentPage extends AppointmentBasePage {
      * @param hourText Ejemplo exacto: "9:00 AM", "12:00 PM", "4:00 PM"
      */
     public void selectHour(String hourText) {
-        System.out.println("[POM]: Seleccionando la hora de la cita -> " + hourText);
-
-        // 1. Apuntamos a los divs interactivos de la hora (clase cursor-pointer)
-        // 2. Filtramos exactamente por el texto de la hora que nos interesa
-        timeButton.filter(new Locator.FilterOptions().setHasText(hourText)).click();
+        Allure.step("Seleccionando la hora de la cita -> " + hourText, () ->
+                timeButton.filter(new Locator.FilterOptions().setHasText(hourText)).click());
     }
 
     public void createAppointment() {

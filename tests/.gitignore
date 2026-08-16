@@ -10,6 +10,7 @@ test-output/  # Si TestNG genera reportes aquí
 test-results/
 playwright-report/
 test-artifacts/
+state.json
 
 # IDE
 .vscode/

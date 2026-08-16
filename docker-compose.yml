@@ -4,41 +4,83 @@ services:
   db:
     image: mysql:8.0
     restart: always
-    container_name: barber_db
     env_file:
       - ./server/.env
     ports:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
   server:
     build:
       context: ./server
       dockerfile: Dockerfile.dev
-    container_name: server
     ports:
       - "4000:4000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - ./server/.env
-    volumes:
-      - ./server:/app
-      - /app/node_modules
+    # volumes:
+    #   - ./server:/app
+    #   - /app/node_modules
+    healthcheck:
+      test: ["CMD", "node", "-e", "const n=require('net');const s=n.connect(4000,'localhost');s.on('connect',()=>process.exit(0));s.on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
 
   client:
     build: ./client
-    container_name: client
     ports:
       - "5173:5173"
     depends_on:
       - server
     env_file:
       - ./client/.env
+    # volumes:
+    #   - ./client:/app
+    #   - /app/node_modules
+
+  tests:
+    build:
+      context: ./tests
+      dockerfile: Dockerfile
+    # No se inicia con "docker compose up"; se ejecuta bajo demanda:
+    #   docker compose run --rm tests
+    profiles: ["tests"]
+    init: true
+    environment:
+      - CI=true
+    depends_on:
+      db:
+        condition: service_healthy
+      server:
+        condition: service_healthy
+      client:
+        condition: service_started
+    ipc: host
+    # El navegador dentro de este contenedor debe ver "localhost" como el
+    # host para alcanzar la app (5173) y la API (4000) via puertos publicados.
+    # entrypoint.sh quita las líneas de loopback de /etc/hosts (para Java/JDBC)
+    # y exporta HOST_GATEWAY_IP: Playwright lanza Chromium con
+    # --host-resolver-rules=MAP localhost <gateway>, porque Chromium ignora
+    # /etc/hosts y resuelve "localhost" siempre al loopback del contenedor.
+    extra_hosts:
+      - "localhost:host-gateway"
     volumes:
-      - ./client:/app
-      - /app/node_modules
-  
+      # Resultados de Allure generados en /app/target/allure-results
+      - ./tests/allure-results:/app/target/allure-results
+      # Cache de dependencias Maven entre ejecuciones
+      - m2_cache:/root/.m2
+
 volumes:
   db_data:
-
+  m2_cache:

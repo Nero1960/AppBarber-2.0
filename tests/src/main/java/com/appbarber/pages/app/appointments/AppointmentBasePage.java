@@ -17,7 +17,9 @@ public class AppointmentBasePage {
     }
 
     public void navigateTo(String urlBase, String path) {
-        page.navigate(urlBase + "/app" + path);
+        String cleanPath = path.startsWith("/") ? path.substring(1) : path;
+        String fullUrl = urlBase + "/app" + (cleanPath.isEmpty() ? "" : "/" + cleanPath);
+        page.navigate(fullUrl);
     }
 
     public void nextStep(){

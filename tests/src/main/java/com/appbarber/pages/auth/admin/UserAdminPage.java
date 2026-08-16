@@ -1,17 +1,11 @@
 package com.appbarber.pages.auth.admin;
 
+import com.appbarber.pages.app.BaseAppPage;
 import com.microsoft.playwright.Page;
 
-public class UserAdminPage {
-    private final Page page;
+public class UserAdminPage extends BaseAppPage {
 
     public UserAdminPage(Page page) {
-        this.page = page;
+        super(page, "/admin");
     }
-
-    public boolean isLoaded(String urlBase) {
-        page.waitForURL(urlBase + "/admin");
-        return page.url().equals(urlBase + "/admin");
-    }
-
 }
