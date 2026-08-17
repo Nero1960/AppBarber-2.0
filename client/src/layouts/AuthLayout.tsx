@@ -27,16 +27,16 @@ const AuthLayout = () => {
     return (
         <>
             <main className='h-screen animate-fade-up animation-delay-1000'>
-                <div className='grid grid-cols-1 lg:grid-cols-2 h-screen'>
-                    <div className='hidden lg:flex auth-image flex-col justify-between py-5 px-7'>
+                <div className='grid h-screen grid-cols-1 lg:grid-cols-2'>
+                    <div className='flex-col justify-between hidden py-5 lg:flex auth-image px-7'>
                         <Logo />
                         <div className='flex flex-col gap-y-5'>
-                            <blockquote className='text-white-300  text-xl leading-8'>
-                                <span className='font-bold text-3xl'>“</span> Bienvenido a Mojica's Barbershop
-                                donde el estilo y la tradición se unen para ofrecerte la mejor experiencia de cuidado personal<span className='font-bold text-3xl'> ”</span>
+                            <blockquote className='text-xl leading-8 text-white-300'>
+                                <span className='text-3xl font-bold'>“</span> Bienvenido a Mojica's Barbershop
+                                donde el estilo y la tradición se unen para ofrecerte la mejor experiencia de cuidado personal<span className='text-3xl font-bold'> ”</span>
                             </blockquote>
 
-                            <span className='text-sm text-white-500 italic'>Mojica's Barbershop</span>
+                            <span className='text-sm italic text-white-500'>Mojica's Barbershop</span>
                         </div>
                     </div>
 

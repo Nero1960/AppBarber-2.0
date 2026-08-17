@@ -94,12 +94,18 @@ export const getAllAppointments = async () => {
 
         if (response.success) {
             return response.data;
+        } else {
+            // Si Zod falla, imprimimos el porqué en consola para QA, pero no dejamos morir la app
+            console.error("Zod Validation Error en getAllAppointments:", response.error.format());
+            return []; // 🚀 RETORNO SEGURO
         }
 
     } catch (error) {
+        console.error("Error en petición getAllAppointments:", error);
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
         }
+        return []; // 🚀 RETORNO SEGURO EN CAÍDAS DE RED
     }
 }
 
@@ -158,15 +164,20 @@ export const getCancellationReasonsData = async () => {
         const url = `/report/appointment/cancellation/data`;
         const { data } = await api.get(url);
 
-
         const response = cancellationReasonSchemaArray.safeParse(data);
         if (response.success) {
             return response.data;
+        } else {
+            // Si Zod falla, imprimimos el porqué en consola para QA, pero no dejamos morir la app
+            console.error("Zod Validation Error en Cancelaciones:", response.error.format());
+            return []; // 🚀 RETORNO SEGURO
         }
 
     } catch (error) {
+        console.error("Error en petición getCancellationReasonsData:", error);
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
         }
+        return []; // 🚀 RETORNO SEGURO EN CAÍDAS DE RED
     }
 }

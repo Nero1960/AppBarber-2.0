@@ -14,11 +14,11 @@ public class LoginPage extends AuthBasePage{
         clickInputSubmit();
     }
 
-    public boolean isLoginWithPasswordIncorrect(){
+    public boolean isPasswordIncorrectMessageShown(){
         return getAuthMessage().equals("Contraseña incorrecta");
     }
 
-    public boolean isloginWithUserNotAuth(){
+    public boolean isAccountNotConfirmedMessageShown(){
         return getAuthMessage().equals("Tu cuenta no ha sido confirmada, hemos reenviado un email de confirmación");
     }
     

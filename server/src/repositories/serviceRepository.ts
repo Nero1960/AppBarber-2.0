@@ -39,31 +39,34 @@ class ServiceRepository implements IServiceRepository {
     }
 
     async findTopServices(startDate: Date, endDate: Date) {
-        return await AppointmentService.findAll({
-            include: [
-                {
-                    model: Appointment,
-                    where: {
-                        date: { [Op.between]: [startDate, endDate] },
-                        status: 'completed'
-                    },
-                    attributes: []
+    return await AppointmentService.findAll({
+        include: [
+            {
+                model: Appointment,
+                where: {
+                    date: { [Op.between]: [startDate, endDate] },
+                    status: 'completed'
                 },
-                {
-                    model: Service,
-                    attributes: []
-                }
-            ],
-            attributes: [
-                'AppointmentService.serviceId',
-                [fn('COUNT', col('AppointmentService.serviceId')), 'count'],
-                [col('service.name'), 'name']
-            ],
-            limit: 3,
-            group: ['AppointmentService.serviceId', 'Service.name'],
-            order: [[fn('COUNT', col('AppointmentService.serviceId')), 'DESC']],
-        });
-    }
+                attributes: []
+            },
+            {
+                model: Service,
+                attributes: []
+            }
+        ],
+        attributes: [
+            'serviceId',
+            [fn('COUNT', col('AppointmentService.serviceId')), 'count'],
+            // Corregido según tu modelo AppointmentService: declare service: Service;
+            [col('service.name'), 'name'] 
+        ],
+        limit: 3,
+        // Corregido: Sincronizamos las tablas con el nombre exacto de la relación
+        group: ['AppointmentService.serviceId', 'service.name'],
+        order: [[fn('COUNT', col('AppointmentService.serviceId')), 'DESC']],
+        raw: true 
+    });
+}
 }
 
 export default ServiceRepository;

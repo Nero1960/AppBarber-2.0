@@ -20,7 +20,7 @@ public class RegisterPage extends AuthBasePage {
     }
 
     public void navigateToRegister(String urlBase) {
-        page.navigate(urlBase + "/register");
+        navigateTo(urlBase, "/register");
     }
 
     public void fillNameInput(String name) {
@@ -55,7 +55,7 @@ public class RegisterPage extends AuthBasePage {
         return getAuthMessage().equals("Usuario ya registrado");
     }
 
-    public boolean isUserRegisteredSuccessFuly() {
+    public boolean isUserRegisteredSuccessfully() {
         return getAuthMessage().equals("Hemos enviado instrucciones a tu correo para confirmar tu cuenta");
     }
 

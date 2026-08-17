@@ -1,6 +1,6 @@
 import api from "@/config/axios";
 import { isAxiosError } from 'axios';
-import { Service, serviceSchema, serviceSchemaArray, topServiceSchemaArray } from "../types";
+import { Service, serviceSchema, serviceSchemaArray, TopServiceData, topServiceSchemaArray } from "../types";
 
 export const getServices = async () => {
 
@@ -41,20 +41,24 @@ export const getServiceById = async (serviceId: Service['serviceId']) => {
     }
 }
 
-export const getTopServices = async (period: string) => {
+export const getTopServices = async (period: string): Promise<TopServiceData[]> => {
+    const url = `/service/get-top-services?period=${period}`;
+    
     try {
-        const url = `/service/get-top-services?period=${period}`;
         const { data } = await api.get(url);
-
         const response = topServiceSchemaArray.safeParse(data);
-        if (response.success) {
-            return response.data
+        
+        if (!response.success) {
+            throw new Error('La respuesta del servidor no tiene el formato esperado');
         }
+        
+        return response.data;
 
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
         }
+        throw error;
     }
 }
 
