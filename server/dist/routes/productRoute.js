@@ -11,6 +11,9 @@ const Validation_1 = require("../middleware/Validation");
 const productController_1 = __importDefault(require("../controllers/productController"));
 const admin_1 = require("../middleware/admin");
 const route = (0, express_1.Router)();
+//Endpoint público de lectura para la tienda (visitantes anónimos)
+route.get('/get-products', productController_1.default.getProducts // Controlador que maneja la lógica de obtener todos los productos
+);
 route.use(auth_1.authenticate);
 route.post('/new-product', admin_1.isAdmin, uploadFiles_1.default.single('image'), // Manejo de la carga de la imagen antes de las validaciones
 (0, express_validator_1.body)('name')
@@ -19,8 +22,6 @@ route.post('/new-product', admin_1.isAdmin, uploadFiles_1.default.single('image'
     .isNumeric().withMessage("El precio debe ser un numero"), (0, express_validator_1.body)('description')
     .notEmpty().withMessage("La descripción del producto es requerido"), (0, express_validator_1.body)('quantity')
     .notEmpty().withMessage("La cantidad de producto es requerido"), Validation_1.handleInputErrors, productController_1.default.newProduct // Controlador que maneja la lógica de añadir un producto
-);
-route.get('/get-products', auth_1.authenticate, productController_1.default.getProducts // Controlador que maneja la lógica de obtener todos los productos
 );
 route.get('/get-product/:productId', (0, express_validator_1.param)('productId')
     .isNumeric().withMessage('ID de producto no válido')

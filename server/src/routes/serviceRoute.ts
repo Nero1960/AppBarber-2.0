@@ -7,13 +7,14 @@ import { serviceController } from '../config/container';
 
 const route = Router();
 
-//todas las consultas hacia servicio, el usuario debe estar autenticado
-route.use(authenticate);
-
+//Endpoint público de lectura para el home (visitantes anónimos)
 route.get(
     '/services',
     serviceController.getAllServices
 );
+
+//todas las consultas hacia servicio, el usuario debe estar autenticado
+route.use(authenticate);
 
 route.get(
     '/get-top-services',

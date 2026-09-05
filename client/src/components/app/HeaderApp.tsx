@@ -8,12 +8,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import Logo from "@/components/Logo";
 import { Link, useLocation } from "react-router-dom";
 import ProfileMenu from "@/components/app/ProfileMenu";
+import { useAuthStore } from "@/store/authStore";
 import MenuHam from "./MenuHam";
 
 
 const HeaderApp = () => {
     
     const location = useLocation();
+    const user = useAuthStore(state => state.user);
 
     return (
         <header className="py-5 lg:py-0">
@@ -62,8 +64,17 @@ const HeaderApp = () => {
                     <nav className="hidden lg:flex flex-col lg:flex-row gap-x-7 items-center">
                         <Link to={'/app'} className={`${location.pathname === '/app' ? 'text-Primary-500' : 'text-white-500'} text-sm hover:text-Primary-500 duration-300`}>Inicio</Link>
                         <Link to={'/app/about'} className={`${location.pathname === '/app/about' ? 'text-Primary-500' : 'text-white-500'} text-sm hover:text-Primary-500 duration-300`}>Nosotros</Link>
-                        <Link to={'/app/my-appointment'} className={`${location.pathname === '/app/my-appointment' ? 'text-Primary-500' : 'text-white-500'} text-sm hover:text-Primary-500 duration-300`}>Mis Citas</Link>
-                        <ProfileMenu />
+                        {user && (
+                            <Link to={'/app/my-appointment'} className={`${location.pathname === '/app/my-appointment' ? 'text-Primary-500' : 'text-white-500'} text-sm hover:text-Primary-500 duration-300`}>Mis Citas</Link>
+                        )}
+                        {user ? <ProfileMenu /> : (
+                            <Link
+                                to={'/auth/login'}
+                                className="text-white-500 text-sm hover:text-Primary-500 duration-300"
+                            >
+                                Iniciar Sesión
+                            </Link>
+                        )}
                         <Link to={'/app/appointment'} className="text-white-500 px-4 py-2 rounded-lg bg-Primary-500 hover:bg-Primary-600 duration-300 flex gap-x-2 items-center text-sm ">
                             Haz Tu cita
                         </Link>

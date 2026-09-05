@@ -7,12 +7,14 @@ import { isAdmin } from '../middleware/admin';
 import upload from '../middleware/uploadFiles';
 
 const route = Router();
-route.use(authenticate);
 
+//Endpoint público de lectura para el home (visitantes anónimos)
 route.get(
     '/barbers',
     barberController.getBarbers
 )
+
+route.use(authenticate);
 
 route.get(
     '/:barberId',

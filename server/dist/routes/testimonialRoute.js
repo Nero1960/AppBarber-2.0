@@ -7,11 +7,12 @@ const Validation_1 = require("../middleware/Validation");
 const container_1 = require("../config/container");
 const admin_1 = require("../middleware/admin");
 const route = (0, express_1.Router)();
+//Endpoint público de lectura para el home (visitantes anónimos)
+route.get('/testimonials/approved', container_1.testimonialController.getTestimonialsApproved);
 route.use(auth_1.authenticate);
 route.post('/create', (0, express_validator_1.body)('title')
     .notEmpty().withMessage('EL titulo es requerido'), (0, express_validator_1.body)('message')
     .notEmpty().withMessage('EL testimonial es requerido'), Validation_1.handleInputErrors, container_1.testimonialController.createTestimonial);
-route.get('/testimonials/approved', container_1.testimonialController.getTestimonialsApproved);
 route.get('/testimonials', admin_1.isAdmin, container_1.testimonialController.getAllTestimonials);
 route.patch('/:testimonialId/status', (0, express_validator_1.param)('testimonialId')
     .isNumeric().withMessage('ID del testimonial no valido'), admin_1.isAdmin, container_1.testimonialController.updateStatusTestimonial);

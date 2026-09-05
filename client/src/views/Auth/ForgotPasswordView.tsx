@@ -42,7 +42,7 @@ const ForgotPasswordView = () => {
                         <Logo />
                     </div>
                     <Link
-                        to={'/register'}
+                        to={'/auth/register'}
                         className="px-4 py-2 duration-300 rounded-md text-white-500 hover:bg-brown-500"
 
                     >Regístrate</Link>
@@ -88,7 +88,7 @@ const ForgotPasswordView = () => {
 
 
 
-                        <Link to={'/'} className="grid grid-cols-3 mb-5 text-sm text-center uppercase text-brown-200 login-with gap-x-3">Iniciar Sesión</Link>
+                        <Link to={'/auth/login'} className="grid grid-cols-3 mb-5 text-sm text-center uppercase text-brown-200 login-with gap-x-3">Iniciar Sesión</Link>
 
                         {isPending && (
                             <div className='flex items-center justify-center my-3'>

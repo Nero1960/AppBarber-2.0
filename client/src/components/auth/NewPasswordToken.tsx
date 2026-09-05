@@ -46,7 +46,7 @@ const NewPasswordToken = ({ token, setToken, setIsValidToken }: NewPasswordToken
                         <Logo />
                     </div>
                     <Link
-                        to={'/register'}
+                        to={'/auth/register'}
                         className="text-white-500  hover:bg-brown-500 py-2 rounded-md px-4 duration-300"
 
                     >Regístrate</Link>
@@ -98,7 +98,7 @@ const NewPasswordToken = ({ token, setToken, setIsValidToken }: NewPasswordToken
 
                     <nav className="mt-10 flex flex-col space-y-4">
                         <Link
-                            to='/request-token'
+                            to='/auth/request-token'
                             className="text-center bg-transparent hover:bg-brown-500 text-white-500 py-2 px-5 rounded-md  duration-300"
                         >
                             Solicitar un nuevo Código

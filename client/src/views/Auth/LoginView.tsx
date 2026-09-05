@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { FcGoogle } from "react-icons/fc";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -20,6 +20,7 @@ const LoginView = () => {
 
     const setUser = useAuthStore((state) => state.setUser);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const initialValues: AuthLogin = {
         email: '',
@@ -43,8 +44,14 @@ const LoginView = () => {
                 setUser(data)
                 reset();
 
+                //Si el usuario venía de una ruta protegida, lo regresamos a su destino
+                const state = location.state as { from?: string } | null;
+                const from = state?.from;
+
                 if (data.admin) {
                     navigate('/admin')
+                } else if (from && from.startsWith('/app')) {
+                    navigate(from)
                 } else {
                     navigate('/app')
                 }
@@ -64,7 +71,7 @@ const LoginView = () => {
                     </div>
 
                     <Link
-                        to={'/register'}
+                        to={'/auth/register'}
                         className="px-4 py-2 duration-300 rounded-md text-white-500 hover:bg-brown-500"
 
                     >Regístrate</Link>
@@ -132,7 +139,7 @@ const LoginView = () => {
 
                         </div>
 
-                        <Link to={'/forgot-password'} className="grid grid-cols-3 mb-5 text-sm text-center uppercase text-brown-200 login-with">¿Olvidaste tu contraseña?</Link>
+                        <Link to={'/auth/forgot-password'} className="grid grid-cols-3 mb-5 text-sm text-center uppercase text-brown-200 login-with">¿Olvidaste tu contraseña?</Link>
 
                         {isPending && (
                             <div className='flex items-center justify-center my-3'>
@@ -154,6 +161,15 @@ const LoginView = () => {
                             <FcGoogle />
                             Google
                         </button>
+
+                        <div className="flex justify-center mb-5">
+                            <Link
+                                to={'/app'}
+                                className="text-sm text-brown-200 hover:text-white-500 duration-300"
+                            >
+                                Continuar sin iniciar sesión
+                            </Link>
+                        </div>
 
                         <p className="max-w-4xl mt-3 text-sm text-center text-brown-200">Al crear una cuenta, aceptas nuestros Términos y Condiciones y la Política de Privacidad</p>
                     </form>

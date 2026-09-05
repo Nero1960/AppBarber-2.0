@@ -35,7 +35,7 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
         onSuccess(data) {
             toast.success(data)
             reset();
-            navigate('/')
+            navigate('/auth/login')
         },
     })
 
@@ -57,7 +57,7 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
                         <Logo />
                     </div>
                     <Link
-                        to={'/register'}
+                        to={'/auth/register'}
                         className="text-white-500  hover:bg-brown-500 py-2 rounded-md px-4 duration-300"
 
                     >Regístrate</Link>
@@ -132,7 +132,7 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
 
 
 
-                        <Link to={'/'} className="text-brown-200 text-sm uppercase text-center login-with grid grid-cols-3 mb-5">Iniciar Sesión</Link>
+                        <Link to={'/auth/login'} className="text-brown-200 text-sm uppercase text-center login-with grid grid-cols-3 mb-5">Iniciar Sesión</Link>
 
                         {isPending && (
                             <div className='flex items-center justify-center my-3'>

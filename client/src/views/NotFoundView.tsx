@@ -10,7 +10,7 @@ const NotFoundView = () => {
                 <p className="mt-6 text-base leading-7 text-brown-200">Lo sentimos, estas intentando acceder a una pagina inexistente.</p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                     <Link
-                        to={'/'}
+                        to={'/app'}
                         className="rounded-md bg-white-100 px-3.5 py-2.5 text-sm font-semibold  shadow-sm hover:bg-white-500 duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
                     >
                         Ir a Inicio

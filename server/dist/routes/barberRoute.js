@@ -11,8 +11,9 @@ const Validation_1 = require("../middleware/Validation");
 const admin_1 = require("../middleware/admin");
 const uploadFiles_1 = __importDefault(require("../middleware/uploadFiles"));
 const route = (0, express_1.Router)();
-route.use(auth_1.authenticate);
+//Endpoint público de lectura para el home (visitantes anónimos)
 route.get('/barbers', container_1.barberController.getBarbers);
+route.use(auth_1.authenticate);
 route.get('/:barberId', (0, express_validator_1.param)('barberId')
     .isNumeric().withMessage('ID no valido'), Validation_1.handleInputErrors, container_1.barberController.getBarberById);
 route.post('/create', admin_1.isAdmin, // Verificación de autenticación primero

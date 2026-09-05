@@ -30,8 +30,8 @@ const ProfileMenu = () => {
         //borramos el usuario de la store
         clearUser();
 
-        //ir al login
-        navigate('/');
+        //ir al home público
+        navigate('/app');
     }
 
 

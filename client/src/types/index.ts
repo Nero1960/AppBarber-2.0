@@ -47,7 +47,8 @@ export const userSchema = authSchema.pick({
 }).extend({
     admin: z.number(),
     address: z.string().or(z.null()),
-    image: z.string()
+    //Tolerante a null o ausencia en la base de datos (el modelo usa 'default.png')
+    image: z.string().catch('default.png')
 })
 
 //Model for update user

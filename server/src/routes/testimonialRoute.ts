@@ -7,6 +7,11 @@ import { isAdmin } from '../middleware/admin';
 
 const route = Router();
 
+//Endpoint público de lectura para el home (visitantes anónimos)
+route.get(
+    '/testimonials/approved',
+    testimonialController.getTestimonialsApproved
+)
 
 route.use(authenticate);
 
@@ -18,11 +23,6 @@ route.post(
         .notEmpty().withMessage('EL testimonial es requerido'),
     handleInputErrors,
     testimonialController.createTestimonial
-)
-
-route.get(
-    '/testimonials/approved',
-    testimonialController.getTestimonialsApproved
 )
 
 route.get(

@@ -8,6 +8,12 @@ import { isAdmin } from "../middleware/admin";
 
 const route = Router();
 
+//Endpoint público de lectura para la tienda (visitantes anónimos)
+route.get(
+    '/get-products',
+    ProductController.getProducts // Controlador que maneja la lógica de obtener todos los productos
+)
+
 route.use(authenticate);
 
 route.post(
@@ -27,12 +33,6 @@ route.post(
     handleInputErrors,
     ProductController.newProduct // Controlador que maneja la lógica de añadir un producto
 );
-
-route.get(
-    '/get-products',
-    authenticate,
-    ProductController.getProducts // Controlador que maneja la lógica de obtener todos los productos
-)
 
 route.get(
     '/get-product/:productId',

@@ -11,16 +11,18 @@ import { IoMdAddCircle } from "react-icons/io";
 import TestimonialAddModal from "@/components/app/testimonials/TestimonialAddModal";
 import { useQuery } from "@tanstack/react-query";
 import { getTestimonials } from "@/api/TestimonialApi";
+import { useAuthStore } from "@/store/authStore";
 
 const TestimonialApp = () => {
 
     
     const [showModal, setShowModal] = useState(false)
+    const user = useAuthStore(state => state.user);
 
     const { data : testimonials } = useQuery({
         queryKey: ['testimonials'],
         queryFn: getTestimonials,
-        retry: false,
+        retry: 1,
         refetchOnWindowFocus: false,
         enabled: true,
     });
@@ -93,13 +95,15 @@ const TestimonialApp = () => {
                         </div>
                     </Carousel>
                     
-                    <div className="flex justify-end">
-                        <IoMdAddCircle
-                            title="Agregar un testimonial"
-                            className="text-Primary-500 font-bold text-4xl cursor-pointer"
-                            onClick={() => setShowModal(true)}
-                        />
-                    </div>
+                    {user && (
+                        <div className="flex justify-end">
+                            <IoMdAddCircle
+                                title="Agregar un testimonial"
+                                className="text-Primary-500 font-bold text-4xl cursor-pointer"
+                                onClick={() => setShowModal(true)}
+                            />
+                        </div>
+                    )}
 
                     {showModal && (
                         <TestimonialAddModal

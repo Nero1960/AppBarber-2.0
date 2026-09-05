@@ -7,9 +7,10 @@ const admin_1 = require("../middleware/admin");
 const express_1 = require("express");
 const container_1 = require("../config/container");
 const route = (0, express_1.Router)();
+//Endpoint público de lectura para el home (visitantes anónimos)
+route.get('/services', container_1.serviceController.getAllServices);
 //todas las consultas hacia servicio, el usuario debe estar autenticado
 route.use(auth_1.authenticate);
-route.get('/services', container_1.serviceController.getAllServices);
 route.get('/get-top-services', admin_1.isAdmin, container_1.serviceController.getTopServices);
 route.get('/:serviceId', admin_1.isAdmin, (0, express_validator_1.param)('serviceId')
     .isNumeric().withMessage('ID no valido'), Validation_1.handleInputErrors, container_1.serviceController.getServiceById);

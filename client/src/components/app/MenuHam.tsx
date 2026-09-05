@@ -3,8 +3,12 @@ import { FaShoppingCart } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { Link } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
+import { useAuthStore } from "@/store/authStore";
 
 const MenuHam = () => {
+
+    const user = useAuthStore(state => state.user);
+
     return (
         <div>
             <Menu>
@@ -43,12 +47,14 @@ const MenuHam = () => {
                         _hover={{ bg: "#333333" }} >
                         <Link to={'/app/products'} className="text-white-500 text-sm">Productos</Link>
                     </MenuItem>
-                    <MenuItem 
-                        className="flex justify-center"
-                        bg="#1f1f1f"
-                        _hover={{ bg: "#333333" }}>
-                        <Link to={'/app/my-appointment'} className="text-white-500 text-sm">Mis Citas</Link>
-                    </MenuItem>
+                    {user && (
+                        <MenuItem
+                            className="flex justify-center"
+                            bg="#1f1f1f"
+                            _hover={{ bg: "#333333" }}>
+                            <Link to={'/app/my-appointment'} className="text-white-500 text-sm">Mis Citas</Link>
+                        </MenuItem>
+                    )}
                     <MenuItem 
                         className="flex justify-center"
                         bg="#1f1f1f"
@@ -57,9 +63,20 @@ const MenuHam = () => {
                             <FaShoppingCart />
                         </Link>
                     </MenuItem>
-                    <div className="px-3 my-3 flex justify-center">
-                        <ProfileMenu />
-                    </div>
+                    {user ? (
+                        <div className="px-3 my-3 flex justify-center">
+                            <ProfileMenu />
+                        </div>
+                    ) : (
+                        <MenuItem
+                            className="flex justify-center"
+                            bg="#1f1f1f"
+                            _hover={{ bg: "#333333" }}>
+                            <Link to={'/auth/login'} className="text-white-500 text-sm">
+                                Iniciar Sesión
+                            </Link>
+                        </MenuItem>
+                    )}
                     <MenuItem 
                         className="flex justify-center"
                         bg="#1f1f1f"

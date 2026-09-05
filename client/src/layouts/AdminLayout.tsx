@@ -34,7 +34,7 @@ export default function AdminLayout() {
     }
 
     // Una vez que terminó de cargar, si no hay usuario, redirige
-    if (!user) return <Navigate to={'/'} replace />;
+    if (!user) return <Navigate to={'/auth/login'} replace />;
 
 
     if (user) return (
